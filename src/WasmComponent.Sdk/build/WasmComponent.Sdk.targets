@@ -14,7 +14,9 @@
 
         <EmSdkVersion>3.1.23</EmSdkVersion>
         <EmSdkUrl>https://github.com/emscripten-core/emsdk/archive/refs/tags/$(EmSdkVersion).zip</EmSdkUrl>
-        <EmscriptenRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".emsdk", "emsdk-$(EmSdkVersion)"))</EmscriptenRoot>
+        <!-- Support bring your own emscripten if $(EMSDK) is already set-->
+        <EmscriptenRoot Condition="'$(EMSDK)' == ''">$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".emsdk", "emsdk-$(EmSdkVersion)"))</EmscriptenRoot>
+        <EmscriptenRoot Condition="'$(EMSDK)' != ''">$(EMSDK)</EmscriptenRoot> 
     </PropertyGroup>
 
     <Target Name="EmitWasmOnBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="LinkNativeLlvm; ConvertToWasmComponent"

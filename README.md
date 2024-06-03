@@ -205,3 +205,6 @@ This is a wrapper around various other bits of tooling:
  * [WASI SDK](https://github.com/WebAssembly/wasi-sdk) and [Emscripten](https://emscripten.org/), both of which are used by NativeAOT-LLVM.
    * Compatible versions of these will be downloaded and cached on your machine the first time you run a build, so the first build will take a few minutes. After that it will only take seconds.
 
+## Contributing
+
+See our [contributing docs](./CONTRIBUTING.md) for details on how to build and contribute to this project.

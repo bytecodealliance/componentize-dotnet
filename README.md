@@ -1,24 +1,24 @@
-# WasmComponent.Sdk
+# componentize-dotnet
 
-**An experimental package to simplify building WASI preview 2 components using .NET, including early support for WIT files.**
+Simplifying C# wasm components 
 
-The build output is fully AOT compiled and is known to work in recent versions of wasmtime and WAMR.
+**A [Bytecode Alliance](https://bytecodealliance.org/) hosted project**
+
+If you have any questions of problems feel free to reach out on the  [c# zulip chat](https://bytecodealliance.zulipchat.com/#narrow/stream/407028-C.23.2F.2Enet-collaboration).
 
 ## Purpose
 
-This is to simplify experimentation and prototyping.
+This is to simplify using Wasm components in c#.
 
 Without this package, if you wanted to build a WASI preview 2 component with .NET, including using WIT imports/exports, there are about 5 different tools you'd need to discover, download, configure, and manually chain together. Just figuring out which versions of each are compatible with the others is a big challenge. Working out how to get started would be very painful.
 
-With this package, you can add one NuGet reference and then get on with your experiments.
+With this package, you can add one NuGet reference. The build output is fully AOT compiled and is known to work in recent versions of wasmtime and WAMR.
 
-## Support
-
-**No support!** This is for experimentation. All the underlying technologies are under heavy development and are missing key features. When you encounter an issue, which you absolutely will, please try to file it on the relevant underlying tool (see credits below). Only file issues on this repo if you're sure the problem is here in this repo.
+:construction: All the underlying technologies are under heavy development and are missing features. Please try to file it on the relevant underlying [tool](#credits) if relevant to that tool.
 
 ## Getting started
 
-**Limitation**: Although the resulting `.wasm` files can run on any OS, [the compiler itself is currently limited to Windows](https://github.com/dotnet/runtimelab/issues/1890#issuecomment-1221602595). Hopefully that limitation will be resolved soon, since everything else in the toolchain is cross-platform.
+**Limitation**: Although the resulting `.wasm` files can run on any OS, [the compiler itself is currently limited to Windows](https://github.com/dotnet/runtimelab/issues/1890#issuecomment-1221602595). 
 
 ### 1. Set up SDKs
 
@@ -51,7 +51,7 @@ Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation
 
 ### 4. Run the WebAssembly binary
 
-If you have [wasmtime 14.0.4](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4) on your path, you can now run
+If you have a recent version of [wasmtime](https://github.com/bytecodealliance/wasmtime/releases) on your path, you can now run
 
     wasmtime bin\Debug\net8.0\wasi-wasm\native\MyApp.wasm
 
@@ -63,7 +63,7 @@ This is much more advanced and is likely to break frequently, since the underlyi
 
 The compilation above will also have generated `MyApp.component.wasm`, which is a WASI preview 2 component. You can also run that if you want, using `wasmtime --wasm component-model bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm`.
 
-**Troubleshooting:** If you get an error like *import 'wasi:...' has the wrong type*, you need a different version of Wasmtime. Currently this package targets [Wasmtime 14.0.4](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4). Unfortunately WASI preview 2 is not yet stable, and every time the standard APIs change shape, compatibility is lost. The spec should become stable in the coming months. I will update this periodically.
+**Troubleshooting:** If you get an error like *import 'wasi:...' has the wrong type*, you need a different version of Wasmtime. Currently this package targets [Wasmtime](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4). WASI preview 2 is now stable and so you shouldn't run into this as often.
 
 ### Referencing a WIT file
 
@@ -195,15 +195,13 @@ If you get a build error along the lines of _failed to encode a component from m
 
 ## Credits
 
+This project was original developed and forked from https://github.com/SteveSandersonMS/wasm-component-sdk under the Apache 2.0 License with a LLVM exception.
+
 This is a wrapper around various other bits of tooling:
 
  * [NativeAOT-LLVM](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT-LLVM) for compilation.
-   * This produces fully AOT-compiled WebAssembly binaries, very quickly.
-   * The vast majority of the work for this was done by [@yowl](https://github.com/yowl) [@SingleAccretion](https://github.com/SingleAccretion), with guidance from [@jkotas](https://github.com/jkotas).
-   * In the future, I may add support for Mono AOT compilation
  * [wit-bindgen](https://github.com/bytecodealliance/wit-bindgen) for supporting WIT imports and exports
-   * When using `wasm-component-sdk`, you don't have to invoke wit-bindgen manually - it's integrated with .NET's build system and even shows up in the VS UI.
-   * wit-bindgen support for C# is thanks to various community members, particularly [@yowl](https://github.com/yowl) and [@jsturtevant](https://github.com/jsturtevant).
-* [wasm-tools](https://github.com/bytecodealliance/wasm-tools) for converting WebAssembly core modules into WASI preview 2 components.
+ * [wasm-tools](https://github.com/bytecodealliance/wasm-tools) for converting WebAssembly core modules into WASI preview 2 components.
  * [WASI SDK](https://github.com/WebAssembly/wasi-sdk) and [Emscripten](https://emscripten.org/), both of which are used by NativeAOT-LLVM.
    * Compatible versions of these will be downloaded and cached on your machine the first time you run a build, so the first build will take a few minutes. After that it will only take seconds.
+

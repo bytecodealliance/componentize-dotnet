@@ -1,4 +1,8 @@
 ﻿<Project>
+    <PropertyGroup>
+        <WitBindgenRuntime>native-aot</WitBindgenRuntime>
+    </PropertyGroup>
+
     <Target Name="WitCompile_BeforeCsCompile" BeforeTargets="BeforeCompile"
 			Condition="'$(Language)' == 'C#' AND '@(Wit)' != ''"
             DependsOnTargets="WitCompile_GetDependencies; WitCompile_InvokeTool">
@@ -29,8 +33,15 @@
         
         <RemoveDir Directories="$(WitGeneratedFilesRoot)" />
         <MakeDir Directories="$(WitGeneratedFilesRoot)" />
-        <Exec Command="$(WitBindgenExe) c-sharp %(Wit.Identity) %(Wit.WitWorldArg) --out-dir $(WitGeneratedFilesRoot)" />
+        <Exec Command="$(WitBindgenExe) c-sharp %(Wit.Identity) %(Wit.WitWorldArg) --runtime $(WitBindgenRuntime) --out-dir $(WitGeneratedFilesRoot)" />
         <WriteLinesToFile File="$(WitGeneratedFilesRoot)lastbuild.txt" Lines="" Overwrite="true" />
+
+        <!-- Need to compile cabi from c https://github.com/bytecodealliance/wit-bindgen/pull/791-->
+        <ItemGroup>
+            <CabiReAllocFiles Include="$(WitGeneratedFilesRoot)**\*World_cabi_realloc.c" />
+          </ItemGroup>
+          <Message Importance="high" Text="building cabi... @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ')" />
+        <Exec WorkingDirectory="$(WitGeneratedFilesRoot)" Command="emcc.bat @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') -c"/>
         
         <ItemGroup>
             <WitGeneratedCsFiles Include="$(WitGeneratedFilesRoot)**\*.cs" />

@@ -1,10 +1,8 @@
 ﻿// I don't think this namespace should be so different to the one in MyFuncsWorldImpl,
 // but currently that's what the codegen requires
-using wit_producer.Wit.exports.test.multipleWorlds.SomeStuff;
+using ProducerWorld.wit.exports.test.multipleWorlds;
 
-namespace wit_producer;
-
-public class SomeStuffImpl : SomeStuff
+public class SomeStuffImpl : ISomeStuff
 {
     public static int GetNumber()
     {

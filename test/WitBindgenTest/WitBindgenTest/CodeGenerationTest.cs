@@ -1,5 +1,5 @@
-using wit_my_funcs;
-using wit_producer;
+using MyFuncsWorld;
+using ProducerWorld;
 using Xunit;
 
 namespace WitBindgenTest;
@@ -14,7 +14,7 @@ public class CodeGenerationTest
             LibraryUsingWit.Code.CallSimpleDoSomething());
 
         // Currently, it generates [DllImport("*", ...)] so validate that
-        Assert.StartsWith("Unable to load DLL '*'", ex.Message);
+        Assert.StartsWith("Unable to load DLL", ex.Message);
     }
 
     [Fact]

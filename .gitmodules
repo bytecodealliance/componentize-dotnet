@@ -1,6 +1,6 @@
 [submodule "modules/wit-bindgen"]
 	path = modules/wit-bindgen
-	url = https://github.com/jsturtevant/wit-bindgen.git
+	url = https://github.com/bytecodealliance/wit-bindgen.git
 [submodule "modules/wasm-tools"]
 	path = modules/wasm-tools
-	url = https://github.com/dicej/wasm-tools.git
+	url = https://github.com/bytecodealliance/wasm-tools.git

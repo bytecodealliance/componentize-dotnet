@@ -33,11 +33,11 @@
     <!-- After build, create the composed component so it can be executed in the test -->
     <Target Name="ComposeWasmComponent" AfterTargets="ConvertToWasmComponent">
         <PropertyGroup>
-            <DependencyComponent>../E2EProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/E2EProducer.component.wasm</DependencyComponent>
+            <DependencyComponent>../E2EProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2eproducer-component.wasm</DependencyComponent>
         </PropertyGroup>
 
         <MakeDir Directories="dist" />
-        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/E2EConsumer.component.wasm -d $(DependencyComponent)" />
+        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2econsumer-component.wasm -d $(DependencyComponent)" />
     </Target>
 
 </Project>

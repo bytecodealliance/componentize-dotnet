@@ -1,5 +1,5 @@
 ﻿using System.Runtime.InteropServices;
-using wit_consumer.Wit.imports.test.producerConsumer.Operations;
+using ConsumerWorld.wit.imports.test.producerConsumer;
 
 Console.WriteLine($"Hello, world on {RuntimeInformation.OSArchitecture}");
 

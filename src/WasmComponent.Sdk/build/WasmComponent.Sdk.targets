@@ -33,7 +33,11 @@
             <WasiPreview1AdapterType>reactor</WasiPreview1AdapterType>
             <WasiPreview1AdapterType Condition="'$(OutputType.ToLower())' == 'exe'">command</WasiPreview1AdapterType>
             <WasiPreview1AdapterPath>$(MSBuildThisFileDirectory)../tools/wasi-wasm/wasi_snapshot_preview1.$(WasiPreview1AdapterType).wasm</WasiPreview1AdapterPath>
-            <NativeComponentBinary>$(NativeOutputPath)$(TargetName).component.wasm</NativeComponentBinary>
+            <!-- 
+                wasm compose requires kabab case (todo: revisit when move to wac https://github.com/bytecodealliance/componentize-dotnet/issues/5) 
+                https://github.com/bytecodealliance/wasm-tools/issues/1440
+            -->
+            <NativeComponentBinary>$(NativeOutputPath)$(TargetName.ToLower())-component.wasm</NativeComponentBinary>
         </PropertyGroup>
     </Target>
 

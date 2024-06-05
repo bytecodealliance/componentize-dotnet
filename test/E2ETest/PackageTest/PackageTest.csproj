@@ -27,7 +27,6 @@
         </PackageReference>
 
         <!-- To ensure we don't build this until we've built the underlying packages -->
-        <ProjectReference Include="..\testapps\E2EConsumer\E2EConsumer.csproj" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 

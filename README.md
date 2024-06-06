@@ -10,7 +10,7 @@ If you have any questions of problems feel free to reach out on the  [c# zulip c
 
 This is to simplify using Wasm components in c#.
 
-Without this package, if you wanted to build a WASI preview 2 component with .NET, including using WIT imports/exports, there are about 5 different tools you'd need to discover, download, configure, and manually chain together. Just figuring out which versions of each are compatible with the others is a big challenge. Working out how to get started would be very painful.
+Without this package, if you wanted to build a WASI 0.2 component with .NET, including using WIT imports/exports, there are several different tools you'd need to discover, download, configure, and manually chain together. Just figuring out which versions of each are compatible with the others is a big challenge. Working out how to get started would be very painful.
 
 With this package, you can add one NuGet reference. The build output is fully AOT compiled and is known to work in recent versions of wasmtime and WAMR.
 
@@ -22,9 +22,7 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 ### 1. Set up SDKs
 
-If you don't already have it, install [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-
-Also install an up-to-date Python 3.x. For example on Windows, [install Python from the Microsoft Store](https://www.microsoft.com/store/productId/9NCVDN91XZQP), and make sure it's available on your `PATH` (for example: check `python --version` prints a version). This is only required temporarily (a bug in Clang for WASI SDK means we require Emscripten, which in turn requires Python).
+If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
 ### 2. Create a project and add WasmComponent.Sdk package
 
@@ -47,8 +45,6 @@ Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
 
 Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
 
-**Troubleshooting:** If you get the error *'python' is not recognized as an internal or external command*, go back and install Python as mentioned above. Also delete the `.emsdk` directory inside your user profile directory, then try again.
-
 ### 4. Run the WebAssembly binary
 
 If you have a recent version of [wasmtime](https://github.com/bytecodealliance/wasmtime/releases) on your path, you can now run
@@ -57,17 +53,17 @@ If you have a recent version of [wasmtime](https://github.com/bytecodealliance/w
 
 (if needed, replace `MyApp.wasm` with the actual name of your project)
 
-## Creating a WASI Preview 2 component, including WIT support
+## Creating a WASI 0.2 component, including WIT support
 
 This is much more advanced and is likely to break frequently, since the underlying tool ecosystem is continually changing.
 
-The compilation above will also have generated `MyApp.component.wasm`, which is a WASI preview 2 component. You can also run that if you want, using `wasmtime --wasm component-model bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm`.
+The compilation above will also have generated `MyApp.component.wasm`, which is a WASI 0.2 component. You can also run that if you want, using `wasmtime --wasm component-model bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm`.
 
-**Troubleshooting:** If you get an error like *import 'wasi:...' has the wrong type*, you need a different version of Wasmtime. Currently this package targets [Wasmtime](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4). WASI preview 2 is now stable and so you shouldn't run into this as often.
+**Troubleshooting:** If you get an error like *import 'wasi:...' has the wrong type*, you need a different version of Wasmtime. Currently this package targets [Wasmtime](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4). WASI 0.2 is now stable and so you shouldn't run into this as often.
 
 ### Referencing a WIT file
 
-The whole point of the WASI preview 2 component model is to be able to interoperate across components. This is achieved using [WebAssembly Interface Type (WIT)](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md) files that specify data structures and functions to be imported or exported across components.
+The whole point of the WASI 0.2 component model is to be able to interoperate across components. This is achieved using [WebAssembly Interface Type (WIT)](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md) files that specify data structures and functions to be imported or exported across components.
 
 This package wraps `wit-bindgen` so that any `.wit` files in your project will automatically generate corresponding C# sources, allowing you to import or export functionality. **Caution:** wit-bindgen's support for C# is *extremely early* and many definitions do not yet work.
 
@@ -122,7 +118,7 @@ var result = OperationsInterop.Add(123, 456);
 Console.WriteLine($"The result is {result}");
 ```
 
-Since your component is no longer a self-contained application, you can no longer run it without also composing it with another WASI preview 2 component that implements the `add` function. To do that, either:
+Since your component is no longer a self-contained application, you can no longer run it without also composing it with another WASI 0.2 component that implements the `add` function. To do that, either:
 
  * Create another .NET project and this time follow the steps for "exporting an implementation" below
  * Or, read docs for other platforms such as Rust or TinyGo, to implement a WASI component containing the implementation.
@@ -161,7 +157,7 @@ public class OperationsImpl : Operations
 
 Make sure to get the namespace exactly correct! Although this is quite difficult to figure out at the moment, hopefully a future version of the C# support in wit-bindgen will make it easier.
 
-Now when you build, you'll get a real WASI preview 2 component that exports an implementation for this WIT definition. You can confirm it using [wasm-tools](https://github.com/bytecodealliance/wasm-tools) by running:
+Now when you build, you'll get a real WASI 0.2 component that exports an implementation for this WIT definition. You can confirm it using [wasm-tools](https://github.com/bytecodealliance/wasm-tools) by running:
 
 ```
 wasm-tools component wit bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm
@@ -179,7 +175,7 @@ world root {
 }
 ```
 
-This component can be used anywhere that WASI preview 2 components can be used. For example, use `wasm-tools compose` as illustrated above.
+This component can be used anywhere that WASI 0.2 components can be used. For example, use `wasm-tools compose` as illustrated above.
 
 ### WIT strings and memory
 
@@ -201,8 +197,8 @@ This is a wrapper around various other bits of tooling:
 
  * [NativeAOT-LLVM](https://github.com/dotnet/runtimelab/tree/feature/NativeAOT-LLVM) for compilation.
  * [wit-bindgen](https://github.com/bytecodealliance/wit-bindgen) for supporting WIT imports and exports
- * [wasm-tools](https://github.com/bytecodealliance/wasm-tools) for converting WebAssembly core modules into WASI preview 2 components.
- * [WASI SDK](https://github.com/WebAssembly/wasi-sdk) and [Emscripten](https://emscripten.org/), both of which are used by NativeAOT-LLVM.
+ * [wasm-tools](https://github.com/bytecodealliance/wasm-tools) for converting WebAssembly core modules into WASI 0.2 components.
+ * [WASI SDK](https://github.com/WebAssembly/wasi-sdk) which is used by NativeAOT-LLVM.
    * Compatible versions of these will be downloaded and cached on your machine the first time you run a build, so the first build will take a few minutes. After that it will only take seconds.
 
 ## Contributing

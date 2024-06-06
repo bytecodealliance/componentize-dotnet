@@ -22,8 +22,10 @@
     -->
     <Target Name="PrepareWasmSdks" BeforeTargets="CheckWasmSdks" DependsOnTargets="ObtainWasiSdk; ObtainEmscripten">
         <PropertyGroup>
+            <ClangExeName>clang</ClangExeName>
+            <ClangExeName Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(ClangExeName).exe</ClangExeName>
             <EmSdk>$(EmscriptenRoot)</EmSdk>
-            <Wasicompiler>$(EmscriptenRoot)\upstream\emscripten\emcc.bat</Wasicompiler>
+            <Wasicompiler>$(WasiSdkRoot)\bin\$(ClangExeName)</Wasicompiler>
             <WASI_SDK_PATH>$(WasiSdkRoot)</WASI_SDK_PATH>
         </PropertyGroup>
     </Target>

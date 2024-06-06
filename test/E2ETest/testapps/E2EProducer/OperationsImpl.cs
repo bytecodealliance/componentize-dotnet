@@ -1,6 +1,6 @@
-﻿namespace wit_producer.Wit.exports.test.producerConsumer.Operations;
+﻿namespace ProducerWorld.wit.exports.test.producerConsumer;
 
-public class OperationsImpl : Operations
+public class OperationsImpl : IOperations
 {
     public static int Add(int left, int right)
     {

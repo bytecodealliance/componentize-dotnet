@@ -1,4 +1,4 @@
-﻿using wit_hostapp.Wit.imports.example.calculator.Operations;
+﻿using HostappWorld.wit.imports.example.calculator;
 
 var left = 123;
 var right = 456;

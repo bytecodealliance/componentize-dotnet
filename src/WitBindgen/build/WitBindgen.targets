@@ -1,7 +1,91 @@
 ﻿<Project>
+    <PropertyGroup>
+        <WitBindgenRuntime>native-aot</WitBindgenRuntime>
+
+        <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
+        <WasiSdkVersion>20.0</WasiSdkVersion>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0.m-mingw.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0-linux.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0-macos.tar.gz</WasiSdkUrl>
+        <WasiSdkRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".wasi-sdk", "wasi-sdk-$(WasiSdkVersion)"))</WasiSdkRoot>
+
+        <EmSdkVersion>3.1.61</EmSdkVersion>
+        <EmSdkUrl>https://github.com/emscripten-core/emsdk/archive/refs/tags/$(EmSdkVersion).zip</EmSdkUrl>
+        <!-- Support bring your own emscripten if $(EMSDK) is already set-->
+        <EmscriptenRoot Condition="'$(EMSDK)' == ''">$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".emsdk", "emsdk-$(EmSdkVersion)"))</EmscriptenRoot>
+        <EmscriptenRoot Condition="'$(EMSDK)' != ''">$(EMSDK)</EmscriptenRoot> 
+    </PropertyGroup>
+
+    <!--
+        MSBuild stuff to acquire the necessary SDKs (WASI SDK and Emscripten) automatically. It will take a few mins on the
+        first build on a given machine, but after that should no-op.
+    -->
+    <Target Name="PrepareWasmSdks" BeforeTargets="CheckWasmSdks" DependsOnTargets="ObtainWasiSdk; ObtainEmscripten">
+        <PropertyGroup>
+            <EmSdk>$(EmscriptenRoot)</EmSdk>
+            <Wasicompiler>$(EmscriptenRoot)\upstream\emscripten\emcc.bat</Wasicompiler>
+            <WASI_SDK_PATH>$(WasiSdkRoot)</WASI_SDK_PATH>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="ObtainEmscripten" Condition="'$(EMSDK)' == '' AND !(Exists($(EmscriptenRoot)))">
+        <!--
+            This is not ideal because if your solution has multiple projects that use WasmComponent.Sdk, then if you
+            build in parallel in CI where your machine doesn't already have wasi-sdk/emsdk, then it may try to download
+            and extract the SDKs multiple times in parallel to the same disk location, which may cause it to fail.
+            The only reason this doesn't happen in this repo is that it explicitly runs the PrepareWasmSdks task before
+            building other projects.
+
+            For a proper fix, consider implementing an MSBuild task in C# that obtains wasi-sdk/emsdk, and uses a mutex
+            so that only one flow executes at a time, with others blocking until it's done.
+        -->
+
+        <PropertyGroup>
+            <EmSdkDownloadTempDir>$([System.IO.Path]::Combine($([System.IO.Path]::GetTempPath()), $([System.IO.Path]::GetRandomFileName())))</EmSdkDownloadTempDir>
+        </PropertyGroup>
+
+        <MakeDir Directories="$(EmSdkDownloadTempDir)" />
+        <DownloadFile
+            SourceUrl="$(EmSdkUrl)"
+            DestinationFolder="$(EmSdkDownloadTempDir)">
+            <Output TaskParameter="DownloadedFile" ItemName="EmSdkDownloadTempFile" />
+        </DownloadFile>
+
+        <!-- Windows 10+ has tar built in, so this should work cross-platform -->
+        <Message Importance="high" Text="Extracting @(EmSdkDownloadTempFile) to $(EmscriptenRoot)..." />
+        <MakeDir Directories="$(EmscriptenRoot)" />
+        <Exec Command="tar -xf &quot;@(EmSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(EmscriptenRoot)" />
+        <RemoveDir Directories="$(EmSdkDownloadTempDir)" />
+
+        <Exec Command="emsdk install $(EmSdkVersion)" WorkingDirectory="$(EmscriptenRoot)" />
+        <Exec Command="emsdk activate $(EmSdkVersion)" WorkingDirectory="$(EmscriptenRoot)" />
+    </Target>
+
+    <Target Name="ObtainWasiSdk" Condition="!(Exists($(WasiSdkRoot)))">
+        <PropertyGroup>
+            <WasiSdkDownloadTempDir>$([System.IO.Path]::Combine($([System.IO.Path]::GetTempPath()), $([System.IO.Path]::GetRandomFileName())))</WasiSdkDownloadTempDir>
+        </PropertyGroup>
+
+        <MakeDir Directories="$(WasiSdkDownloadTempDir)" />
+        <DownloadFile
+            SourceUrl="$(WasiSdkUrl)"
+            DestinationFolder="$(WasiSdkDownloadTempDir)">
+            <Output TaskParameter="DownloadedFile" ItemName="WasiSdkDownloadTempFile" />
+        </DownloadFile>
+
+        <!-- Windows 10+ has tar built in, so this should work cross-platform -->
+        <Message Importance="high" Text="Extracting @(WasiSdkDownloadTempFile) to $(WasiSdkRoot)..." />
+        <MakeDir Directories="$(WasiSdkRoot)" />
+        <Exec Command="tar -xf &quot;@(WasiSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(WasiSdkRoot)" />
+        <RemoveDir Directories="$(WasiSdkDownloadTempDir)" />
+    </Target>
+
+    <!--
+        Following generats and compiles the wit code for the c# project
+    -->
     <Target Name="WitCompile_BeforeCsCompile" BeforeTargets="BeforeCompile"
 			Condition="'$(Language)' == 'C#' AND '@(Wit)' != ''"
-            DependsOnTargets="WitCompile_GetDependencies; WitCompile_InvokeTool">
+            DependsOnTargets="PrepareWasmSdks; WitCompile_GetDependencies; WitCompile_InvokeTool">
         <ItemGroup>
             <Compile Include="$(WitGeneratedFilesRoot)**\*.cs" />
             <NativeObjects Include="$(WitGeneratedFilesRoot)**\*.o" />
@@ -29,8 +113,15 @@
         
         <RemoveDir Directories="$(WitGeneratedFilesRoot)" />
         <MakeDir Directories="$(WitGeneratedFilesRoot)" />
-        <Exec Command="$(WitBindgenExe) c-sharp %(Wit.Identity) %(Wit.WitWorldArg) --out-dir $(WitGeneratedFilesRoot)" />
+        <Exec Command="$(WitBindgenExe) c-sharp %(Wit.Identity) %(Wit.WitWorldArg) --runtime $(WitBindgenRuntime) --out-dir $(WitGeneratedFilesRoot)" />
         <WriteLinesToFile File="$(WitGeneratedFilesRoot)lastbuild.txt" Lines="" Overwrite="true" />
+
+        <!-- Need to compile cabi from c https://github.com/bytecodealliance/wit-bindgen/pull/791-->
+        <ItemGroup>
+            <CabiReAllocFiles Include="$(WitGeneratedFilesRoot)**\*World_cabi_realloc.c" />
+          </ItemGroup>
+          <Message Importance="high" Text="building cabi_realloc files... @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') with $(Wasicompiler)" />
+        <Exec WorkingDirectory="$(WitGeneratedFilesRoot)" Command="&quot;$(Wasicompiler)&quot; @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') -c"/>
         
         <ItemGroup>
             <WitGeneratedCsFiles Include="$(WitGeneratedFilesRoot)**\*.cs" />

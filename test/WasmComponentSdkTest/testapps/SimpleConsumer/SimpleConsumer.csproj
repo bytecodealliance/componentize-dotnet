@@ -31,7 +31,7 @@
     <!-- After build, create the composed component so it can be executed in the test -->
     <Target Name="ComposeWasmComponent" AfterTargets="ConvertToWasmComponent">
         <PropertyGroup>
-            <DependencyComponent>../SimpleProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/SimpleProducer.component.wasm</DependencyComponent>
+            <DependencyComponent>../SimpleProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/simpleproducer-component.wasm</DependencyComponent>
         </PropertyGroup>
 
         <MakeDir Directories="dist" />

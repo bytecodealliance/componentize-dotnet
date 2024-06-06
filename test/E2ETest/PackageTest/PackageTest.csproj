@@ -30,18 +30,21 @@
         <ProjectReference Include="..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
+    <!-- The next targets (+ nuget.config in folder above) ensures we have the latest nuget packages for the e2e test since there is no great way to force a project to use a particular nuget pacakage -->
     <Target Name="BuildTestProjects" DependsOnTargets="PackPackagesForE2ETest" BeforeTargets="Build">
-        <RemoveDir Directories="$(HomeDir)\.nuget\packages\witbindgen\$(PackageVersion)" />
-        <RemoveDir Directories="$(HomeDir)\.nuget\packages\wasmcomponent.sdk\$(PackageVersion)" />
+        <Message Importance="high" Text="Rebuilding e2e test projects..." />
+        <RemoveDir Directories="$(NugetPackageRoot)\witbindgen\$(PackageVersion)" />
+        <RemoveDir Directories="$(NugetPackageRoot)\wasmcomponent.sdk\$(PackageVersion)" />
         <RemoveDir Directories="..\testapps\E2EProducer\obj" />
         <RemoveDir Directories="..\testapps\E2EConsumer\obj" />
         <Exec Command="dotnet restore --no-cache" WorkingDirectory="..\testapps\E2EConsumer" />
-        <Exec Command="dotnet build" WorkingDirectory="..\testapps\E2EConsumer" />
+        <Exec Command="dotnet build --no-restore" WorkingDirectory="..\testapps\E2EConsumer" />
     </Target>
 
     <Target Name="PackPackagesForE2ETest">
+        <Message Importance="high" Text="Repackaging nuget packages for e2e tests to $(DevPackagesDir)" />
+        <RemoveDir Directories="$(DevPackagesDir)"/>
         <Exec Command="dotnet pack -c $(Configuration) WitBindgen.csproj -o $(DevPackagesDir)" WorkingDirectory="..\..\..\src\WitBindgen" />
         <Exec Command="dotnet pack -c $(Configuration) WasmComponent.Sdk.csproj -o $(DevPackagesDir)" WorkingDirectory="..\..\..\src\WasmComponent.Sdk" />
     </Target>
-
 </Project>

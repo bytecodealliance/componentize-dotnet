@@ -17,8 +17,8 @@
 
     <Target Name="ComposeWasmComponent" AfterTargets="Build">
         <PropertyGroup>
-            <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/CalculatorHost.component.wasm</EntrypointComponent>
-            <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/Adder.component.wasm</DependencyComponent>
+            <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/calculatorhost-component.wasm</EntrypointComponent>
+            <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder-component.wasm</DependencyComponent>
         </PropertyGroup>
         
         <MakeDir Directories="dist" />

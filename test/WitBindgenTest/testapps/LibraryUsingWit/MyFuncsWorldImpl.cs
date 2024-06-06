@@ -1,6 +1,6 @@
-﻿namespace wit_my_funcs;
+﻿using MyFuncsWorld;
 
-public class MyFuncsWorldImpl : MyFuncsWorld
+public class MyFuncsWorldImpl : IMyFuncsWorld
 {
     public static int GetNumber()
     {

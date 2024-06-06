@@ -9,11 +9,13 @@
 
         <!-- Things you might want to edit -->
         <!-- Set BuildWitBindgenLocally to true if you want to build modules/wit-bindgen locally and use its output -->
-        <BuildWitBindgenLocally>true</BuildWitBindgenLocally>
-        <PrebuiltWitBindgenVersion>0.14.0</PrebuiltWitBindgenVersion>
-        <PrebuiltWitBindgenBaseUrl>https://github.com/bytecodealliance/wit-bindgen/releases/download/wit-bindgen-cli-$(PrebuiltWitBindgenVersion)/wit-bindgen-v$(PrebuiltWitBindgenVersion)</PrebuiltWitBindgenBaseUrl>
-
+        <BuildWitBindgenLocally>false</BuildWitBindgenLocally>
+        <PrebuiltWitBindgenVersion>0.26.0</PrebuiltWitBindgenVersion>
+        <PrebuiltWitBindgenBaseUrl>https://github.com/bytecodealliance/wit-bindgen/releases/download/v$(PrebuiltWitBindgenVersion)/wit-bindgen-$(PrebuiltWitBindgenVersion)</PrebuiltWitBindgenBaseUrl>
         <WitBindgenModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wit-bindgen\</WitBindgenModuleRoot>
+
+        <!-- This is a marker file that lets the build scripts identity if the files need to be modified when updating versions -->
+        <CurrentWitBindgenVersion>$(MSBuildThisFileDirectory)tools\version-$(PrebuiltWitBindgenVersion)</CurrentWitBindgenVersion>
 
         <!-- Don't pack any assemblies in lib/*/.dll.-->
         <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -50,8 +52,10 @@
         </ItemGroup>
     </Target>
 
-    <Target Name="DownloadNativeToolingCore" Inputs="@(PrebuiltWitBindgenOutputs)" Outputs="@(PrebuiltWitBindgenOutputs)">
+    <Target  Name="DownloadNativeToolingCore" Condition="!Exists('$(CurrentWitBindgenVersion)')" Inputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion)" Outputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion)">
+        <RemoveDir Directories="$(MSBuildThisFileDirectory)tools" />
         <DownloadFile SourceUrl="$(PrebuiltWitBindgenBaseUrl)-%(PrebuiltWitBindgenToolTarget.Identity)%(PrebuiltWitBindgenToolTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(PrebuiltWitBindgenToolTarget.Rid)%(PrebuiltWitBindgenToolTarget.Ext)" />
+        <WriteLinesToFile File="$(CurrentWitBindgenVersion)" Lines="$(PrebuiltWitBindgenVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
         <MakeDir Directories="tools\%(PrebuiltWitBindgenToolTarget.Rid)" />
         <Exec Command="tar -xf &quot;temp/%(PrebuiltWitBindgenToolTarget.Rid)%(PrebuiltWitBindgenToolTarget.Ext)&quot; -C %(PrebuiltWitBindgenToolTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
         <RemoveDir Directories="tools\temp" />

@@ -11,15 +11,17 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
+    name: Build with Dotnet ${{ matrix.dotnet }}
+    strategy:
+      matrix:
+        dotnet: [ '8.x', '9.0.100-preview.4.24267.66']
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.100-rtm.23516.5
+        dotnet-version: ${{ matrix.dotnet }}
     - name: Restore dependencies
       run: dotnet restore
     - name: Prepare WASM SDKs
@@ -31,8 +33,9 @@ jobs:
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
+      if: ${{ matrix.dotnet  == '8.x' }} # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact

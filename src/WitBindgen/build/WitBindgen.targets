@@ -3,10 +3,10 @@
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
 
         <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
-        <WasiSdkVersion>20.0</WasiSdkVersion>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0.m-mingw.tar.gz</WasiSdkUrl>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0-linux.tar.gz</WasiSdkUrl>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-20/wasi-sdk-20.0-macos.tar.gz</WasiSdkUrl>
+        <WasiSdkVersion>22.0</WasiSdkVersion>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion).m-mingw.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-linux.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-macos.tar.gz</WasiSdkUrl>
         <WasiSdkRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".wasi-sdk", "wasi-sdk-$(WasiSdkVersion)"))</WasiSdkRoot>
 
         <EmSdkVersion>3.1.61</EmSdkVersion>

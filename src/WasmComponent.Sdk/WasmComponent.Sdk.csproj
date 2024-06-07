@@ -2,6 +2,15 @@
     <Import Project="build\WasmComponent.Sdk.props" />
 
     <PropertyGroup>
+        <PackageId>ByteCodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>
+        <Authors>ByteCode Alliance Developers</Authors>
+        <Description>Tooling for creating WebAssembly components from C#</Description>
+        <RepositoryUrl>https://github.com/bytecodealliance/componentize-dotnet</RepositoryUrl>
+        <PackageLicenseExpression>Apache-2.0 WITH LLVM-exception</PackageLicenseExpression>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageTags>webassembly, .net, wasm</PackageTags>
+        <PackageReleaseNotes>https://github.com/bytecodealliance/componentize-dotnet/releases/tag/$(PackageVersion)</PackageReleaseNotes>
+
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -25,6 +34,10 @@
         <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
         <PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
         <ProjectReference Include="..\WitBindgen\WitBindgen.csproj" PrivateAssets="None" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="../../Readme.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="WasmComponent.Sdk" Version="$(PackageVersion)" />
+        <PackageReference Include="ByteCodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
     </ItemGroup>
 
     <ItemGroup>

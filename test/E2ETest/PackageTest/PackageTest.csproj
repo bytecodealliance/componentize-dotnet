@@ -33,8 +33,8 @@
     <!-- The next targets (+ nuget.config in folder above) ensures we have the latest nuget packages for the e2e test since there is no great way to force a project to use a particular nuget pacakage -->
     <Target Name="BuildTestProjects" DependsOnTargets="PackPackagesForE2ETest" BeforeTargets="Build">
         <Message Importance="high" Text="Rebuilding e2e test projects..." />
-        <RemoveDir Directories="$(NugetPackageRoot)\witbindgen\$(PackageVersion)" />
-        <RemoveDir Directories="$(NugetPackageRoot)\wasmcomponent.sdk\$(PackageVersion)" />
+        <RemoveDir Directories="$(NugetPackageRoot)\bytecodealliance.componentize.dotnet.wasm.sdk\$(PackageVersion)" />
+        <RemoveDir Directories="$(NugetPackageRoot)\bytecodealliance.componentize.dotnet.witbindgen\$(PackageVersion)" />
         <RemoveDir Directories="..\testapps\E2EProducer\obj" />
         <RemoveDir Directories="..\testapps\E2EConsumer\obj" />
         <Exec Command="dotnet restore --no-cache" WorkingDirectory="..\testapps\E2EConsumer" />

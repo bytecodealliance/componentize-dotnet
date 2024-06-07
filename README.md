@@ -24,13 +24,11 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-### 2. Create a project and add WasmComponent.Sdk package
+### 2. Create a project and add ByteCodeAlliance.Componentize.DotNet.Wasm.SDK package
 
 * `dotnet new console -o MyApp`
 * `cd MyApp`
-* `dotnet new nugetconfig`
-* `dotnet nuget add source --name dotnet8-experimental https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json` 
-* `dotnet add package WasmComponent.Sdk --prerelease`
+* `dotnet add package ByteCodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
 
 ### 3. Configure the compilation output
 

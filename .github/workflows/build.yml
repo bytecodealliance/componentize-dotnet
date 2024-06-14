@@ -34,7 +34,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Prepare WASM SDKs
-      run: dotnet msbuild src/WitBindgen/build/WitBindgen.targets /t:PrepareWasmSdks
+      run: dotnet msbuild src/WitBindgen/build/ByteCodeAlliance.Componentize.DotNet.WitBindgen.targets /t:PrepareWasmSdks
     - name: Build
       run: dotnet build --no-restore /p:BuildNumber=${{ github.run_number }}
     - name: Test

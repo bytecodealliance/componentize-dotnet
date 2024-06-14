@@ -9,7 +9,7 @@ Requires [.NET 8+](https://dotnet.microsoft.com/en-us/download)
 
 ```
 ## needed to avoid errors with multiple projects calling and downloading the sdks at same time (https://github.com/bytecodealliance/componentize-dotnet/issues/8)
-dotnet msbuild src/WitBindgen/build/WitBindgen.targets /t:PrepareWasmSdks
+dotnet msbuild src/WitBindgen/build/ByteCodeAlliance.Componentize.DotNet.WitBindgen.targets /t:PrepareWasmSdks
 dotnet build
 ```
 

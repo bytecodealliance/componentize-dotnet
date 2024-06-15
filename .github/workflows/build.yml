@@ -8,6 +8,15 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
+    # used for [release](https://github.com/bytecodealliance/componentize-dotnet/blob/main/RELEASE.md)
+    branches: [ "main" ]
+    inputs:
+      test-run:
+        description: 'Run the workflow with out publishing step'
+        default: 'true'
+        required: false
+
 
 jobs:
   build:
@@ -25,7 +34,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Prepare WASM SDKs
-      run: dotnet msbuild src/WitBindgen/build/WitBindgen.targets /t:PrepareWasmSdks
+      run: dotnet msbuild src/WitBindgen/build/ByteCodeAlliance.Componentize.DotNet.WitBindgen.targets /t:PrepareWasmSdks
     - name: Build
       run: dotnet build --no-restore /p:BuildNumber=${{ github.run_number }}
     - name: Test
@@ -39,3 +48,46 @@ jobs:
         path: artifacts/*.nupkg
         if-no-files-found: error
       if: ${{ matrix.dotnet  == '8.x' }} # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact
+
+  release:
+    runs-on: windows-latest
+    needs: build
+    permissions:
+      contents: write
+    name: Release
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.x
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: nuget-packages
+    - name: Extract nuget version
+      id: extract_version
+      run: |
+        version=$(unzip -p artifacts/SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+")
+        echo "Version: $version"
+        ls *.nupkg
+        echo "version=$version" >> $GITHUB_OUTPUT
+    # Publish to https://nuget.org and tag the version on repo if test-run=false
+    - name: Publish
+      run: dotnet nuget push ./*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      if: ${{ !inputs.test-run }}
+    - name: Push version tag
+      if: ${{ !inputs.test-run }}
+      env:
+        TAG: v${{ steps.extract_version.outputs.version }}"
+      run: |
+        git tag $TAG
+        git push origin $TAG
+    - name: Create release
+      if: ${{ !inputs.dry_run }}
+      run: |
+        gh release create $TAG --generate-notes --prerelease
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TAG: v${{ steps.extract_version.outputs.version }}"

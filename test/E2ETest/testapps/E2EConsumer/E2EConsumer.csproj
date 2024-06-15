@@ -16,7 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="WasmComponent.Sdk" Version="$(PackageVersion)" />
+        <PackageReference Include="ByteCodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
 
         <!-- Just to ensure build order -->
         <ProjectReference Include="..\E2EProducer\E2EProducer.csproj" ReferenceOutputAssembly="false" />

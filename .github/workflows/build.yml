@@ -68,9 +68,9 @@ jobs:
     - name: Extract nuget version
       id: extract_version
       run: |
-        version=$(unzip -p artifacts/SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+")
-        echo "Version: $version"
         ls *.nupkg
+        version=$(unzip -p ./*SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+")
+        echo "Version: $version"
         echo "version=$version" >> $GITHUB_OUTPUT
     # Publish to https://nuget.org and tag the version on repo if test-run=false
     - name: Publish

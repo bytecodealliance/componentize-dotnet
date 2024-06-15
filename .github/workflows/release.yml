@@ -8,8 +8,9 @@ on:
     inputs:
       test-run:
         description: 'DryRun: Run the workflow without publishing step'
-        default: 'true'
+        default: true
         required: false
+        type: boolean
 
 jobs:
   build:

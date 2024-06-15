@@ -57,6 +57,7 @@ jobs:
     name: Release
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     steps:
+    - uses: actions/checkout@v4 # needed for the create release step
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
@@ -79,14 +80,14 @@ jobs:
     - name: Push version tag
       if: ${{ !inputs.test-run }}
       env:
-        TAG: v${{ steps.extract_version.outputs.version }}"
+        TAG: v${{ steps.extract_version.outputs.version }}
       run: |
         git tag $TAG
         git push origin $TAG
     - name: Create release
-      if: ${{ !inputs.dry_run }}
+      if: ${{ !inputs.test-run }}
       run: |
         gh release create $TAG --generate-notes --prerelease
       env:
         GH_TOKEN: ${{ github.token }}
-        TAG: v${{ steps.extract_version.outputs.version }}"
+        TAG: v${{ steps.extract_version.outputs.version }}

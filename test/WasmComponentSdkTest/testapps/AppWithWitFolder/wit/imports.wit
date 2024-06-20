@@ -1,0 +1,5 @@
+interface folder { folder: func();}
+
+world imports {
+    import folder;
+}

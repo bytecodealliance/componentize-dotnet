@@ -31,6 +31,13 @@ public class SimpleProducerConsumerTest
     }
 
     [Fact]
+    public void CanBuildComponentWithWitPackage()
+    {
+        var witInfo = GetWitInfo(FindModulePath($"../testapps/AppWithWitFolder/bin/{Config}", "appwithwitfolder-component.wasm"));
+        Assert.Contains("import test:pkg/folder", witInfo);
+    }
+
+    [Fact]
     public void CanComposeImportWithExport()
     {
         var composed = FindModulePath("../testapps/SimpleConsumer", "composed.wasm");

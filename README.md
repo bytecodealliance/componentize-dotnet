@@ -175,6 +175,17 @@ world root {
 
 This component can be used anywhere that WASI 0.2 components can be used. For example, use `wasm-tools compose` as illustrated above.
 
+### Referencing Wit Packages
+
+By default the project will find all wit files and execute wit-bindgen against each one. This is makes it easy to get started with a single wit file.  If you have more complicated wit files, then you can create wit packages. To use folder with all the wit in it you can add the following to your `.csproj`. 
+
+```xml
+<ItemGroup>
+    <Wit Remove="**\*.wit"  />
+    <Wit Include="wit-folder" World="wit-world" /> 
+</ItemGroup>
+```
+
 ### WIT strings and memory
 
 The calculator example above works easily because it doesn't need to allocate memory dynamically. Once you start working with strings, you must add an extra line to the `<PropertyGroup>` in your _host_ `.csproj` file (that is, the application that's _importing_ the interface):

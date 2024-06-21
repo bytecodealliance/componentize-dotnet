@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- Only needed when referencing the dependencies as projects. For package references, these are imported automatically. -->
+    <Import Project="..\..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Wit Remove="**\*.wit"  />
+        <Wit Include="wit" World="importstest" />   
+    </ItemGroup>
+</Project>

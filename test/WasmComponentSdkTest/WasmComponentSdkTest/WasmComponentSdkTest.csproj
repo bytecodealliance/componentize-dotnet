@@ -29,6 +29,7 @@
     <ItemGroup>
         <ProjectReference Include="..\testapps\SimpleConsumer\SimpleConsumer.csproj" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\testapps\AppWithWitFolder\AppWithWitFolder.csproj" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\testapps\OciWit\OciWit.csproj" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
 </Project>

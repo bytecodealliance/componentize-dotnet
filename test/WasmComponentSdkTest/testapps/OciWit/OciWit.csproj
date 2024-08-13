@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Only needed when referencing the dependencies as projects. For package references, these are imported automatically. -->
+    <Import Project="..\..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <InvariantGlobalization>true</InvariantGlobalization>
+        <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Wit Remove="**\*.wit" />
+      <Wit Include="wit/wit.wasm" World="command" Registry="ghcr.io/webassembly/wasi/cli:0.2.0" />
+    </ItemGroup>
+
+</Project>

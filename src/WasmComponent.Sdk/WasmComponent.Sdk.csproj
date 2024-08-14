@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="build\ByteCodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
+    <Import Project="build\BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
 
     <PropertyGroup>
-        <PackageId>ByteCodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>
-        <Authors>ByteCode Alliance Developers</Authors>
+        <PackageId>BytecodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>
+        <Authors>Bytecode Alliance Developers</Authors>
         <Description>Tooling for creating WebAssembly components from C#</Description>
         <RepositoryUrl>https://github.com/bytecodealliance/componentize-dotnet</RepositoryUrl>
         <PackageLicenseExpression>Apache-2.0 WITH LLVM-exception</PackageLicenseExpression>

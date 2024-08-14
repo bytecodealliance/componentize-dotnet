@@ -24,11 +24,11 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-### 2. Create a project and add ByteCodeAlliance.Componentize.DotNet.Wasm.SDK package
+### 2. Create a project and add BytecodeAlliance.Componentize.DotNet.Wasm.SDK package
 
 * `dotnet new console -o MyApp`
 * `cd MyApp`
-* `dotnet add package ByteCodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
+* `dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
 
 ### 3. Configure the compilation output
 

@@ -12,9 +12,9 @@ gh workflow run build -f test-run=false
 5. Maintainer updates release notes with package info:
 
 ```
-# https://www.nuget.org/packages/ByteCodeAlliance.Componentize.DotNet.Wasm.SDK
-dotnet add package ByteCodeAlliance.Componentize.DotNet.Wasm.SDK
+# https://www.nuget.org/packages/BytecodeAlliance.Componentize.DotNet.Wasm.SDK
+dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK
 
-# https://www.nuget.org/packages/ByteCodeAlliance.Componentize.DotNet.WitBindgen
-dotnet add package ByteCodeAlliance.Componentize.DotNet.WitBindgen
+# https://www.nuget.org/packages/BytecodeAlliance.Componentize.DotNet.WitBindgen
+dotnet add package BytecodeAlliance.Componentize.DotNet.WitBindgen
 ```

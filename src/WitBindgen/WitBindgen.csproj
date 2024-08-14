@@ -24,7 +24,11 @@
         <WitBindgenModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wit-bindgen\</WitBindgenModuleRoot>
 
         <!-- This is a marker file that lets the build scripts identity if the files need to be modified when updating versions -->
-        <CurrentWitBindgenVersion>$(MSBuildThisFileDirectory)tools\version-$(PrebuiltWitBindgenVersion)</CurrentWitBindgenVersion>
+        <CurrentWitBindgenVersion>$(MSBuildThisFileDirectory)tools\version-wit-bindgen-$(PrebuiltWitBindgenVersion)</CurrentWitBindgenVersion>
+
+        <PrebuildWkgVersion>dev</PrebuildWkgVersion>
+        <PrebuildWkgBaseUrl>https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/$(PrebuildWkgVersion)/wkg</PrebuildWkgBaseUrl>
+        <CurrentWkgVersion>$(MSBuildThisFileDirectory)tools\version-wkg-$(PrebuildWkgVersion)</CurrentWkgVersion>
 
         <!-- Don't pack any assemblies in lib/*/.dll.-->
         <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -54,24 +58,28 @@
 
     <Target Name="GetDownloadNativeToolingDependencies">
         <ItemGroup>
-            <PrebuiltWitBindgenToolTarget Include="aarch64-linux" Rid="linux-arm64" Ext=".tar.gz" />
-            <PrebuiltWitBindgenToolTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" />
-            <PrebuiltWitBindgenToolTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" />
-            <PrebuiltWitBindgenToolTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" />
-            <PrebuiltWitBindgenToolTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" />
+            <PrebuiltToolTarget Include="aarch64-linux" Rid="linux-arm64" Ext=".tar.gz" wkg="aarch64-unknown-linux-gnu"  />
+            <PrebuiltToolTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" wkg="aarch64-apple-darwin"/>
+            <PrebuiltToolTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" wkg="x86_64-unknown-linux-gnu"/>
+            <PrebuiltToolTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" wkg="x86_64-apple-darwin"/>
+            <PrebuiltToolTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" wkg="x86_64-pc-windows-gnu" />
         </ItemGroup>
         <ItemGroup>
-            <PrebuiltWitBindgenOutputs Include="tools\%(PrebuiltWitBindgenToolTarget.Rid)\wit-bindgen%(PrebuiltWitBindgenToolTarget.ExeExt)" />
+            <PrebuiltWitBindgenOutputs Include="tools\%(PrebuiltToolTarget.Rid)\wit-bindgen%(PrebuiltToolTarget.ExeExt)" />
+            <PrebuiltWkgOutputs Include="tools\%(PrebuiltToolTarget.Rid)\wkg%(PrebuiltToolTarget.ExeExt)" />
         </ItemGroup>
     </Target>
 
-    <Target  Name="DownloadNativeToolingCore" Condition="!Exists('$(CurrentWitBindgenVersion)')" Inputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion)" Outputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion)">
+    <Target  Name="DownloadNativeToolingCore" Condition="!Exists('$(CurrentWitBindgenVersion)') Or !Exists('$(CurrentWkgVersion)')" Inputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion);$(CurrentWkgVersion)" Outputs="@(PrebuiltWitBindgenOutputs);$(CurrentWitBindgenVersion);$(CurrentWkgVersion)">
         <RemoveDir Directories="$(MSBuildThisFileDirectory)tools" />
-        <DownloadFile SourceUrl="$(PrebuiltWitBindgenBaseUrl)-%(PrebuiltWitBindgenToolTarget.Identity)%(PrebuiltWitBindgenToolTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(PrebuiltWitBindgenToolTarget.Rid)%(PrebuiltWitBindgenToolTarget.Ext)" />
+        <MakeDir Directories="tools\%(PrebuiltToolTarget.Rid)" />
+        <DownloadFile SourceUrl="$(PrebuiltWitBindgenBaseUrl)-%(PrebuiltToolTarget.Identity)%(PrebuiltToolTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(PrebuiltToolTarget.Rid)%(PrebuiltToolTarget.Ext)" />
         <WriteLinesToFile File="$(CurrentWitBindgenVersion)" Lines="$(PrebuiltWitBindgenVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
-        <MakeDir Directories="tools\%(PrebuiltWitBindgenToolTarget.Rid)" />
-        <Exec Command="tar -xf &quot;temp/%(PrebuiltWitBindgenToolTarget.Rid)%(PrebuiltWitBindgenToolTarget.Ext)&quot; -C %(PrebuiltWitBindgenToolTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
+        <Exec Command="tar -xf &quot;temp/%(PrebuiltToolTarget.Rid)%(PrebuiltToolTarget.Ext)&quot; -C %(PrebuiltToolTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
         <RemoveDir Directories="tools\temp" />
+
+        <DownloadFile SourceUrl="$(PrebuildWkgBaseUrl)-%(PrebuiltToolTarget.wkg)" DestinationFolder="tools\%(PrebuiltToolTarget.Rid)" DestinationFileName="wkg%(PrebuiltToolTarget.ExeExt)" />
+        <WriteLinesToFile File="$(CurrentWkgVersion)" Lines="$(PrebuildWkgVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
     </Target>
 
     <ItemGroup>

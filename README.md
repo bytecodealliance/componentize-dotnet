@@ -186,6 +186,17 @@ By default the project will find all wit files and execute wit-bindgen against e
 </ItemGroup>
 ```
 
+### Referencing Wit Packages from OCI Registries
+Wit can be packaged into [OCI Artifacts](https://tag-runtime.cncf.io/wgs/wasm/deliverables/wasm-oci-artifact/) which can be pushed to OCI registries.  To import a WIT definition from an OCI registry specify the Registry on the `Wit` Element.  This will pull a WASM component binary that contains the WIT definition. wit-bindgen can use the binary format directly to generate the bindings. To view the WIT directly use [`wasm-tools component wit wit/wit.wasm`](https://github.com/bytecodealliance/wasm-tools).  
+
+```xml
+  <ItemGroup>
+    <Wit Remove="**\*.wit" />
+    <Wit Include="wit/wit.wasm" World="command" Registry="ghcr.io/webassembly/wasi/cli:0.2.0" />
+  </ItemGroup>
+```
+
+
 ### WIT strings and memory
 
 The calculator example above works easily because it doesn't need to allocate memory dynamically. Once you start working with strings, you must add an extra line to the `<PropertyGroup>` in your _host_ `.csproj` file (that is, the application that's _importing_ the interface):

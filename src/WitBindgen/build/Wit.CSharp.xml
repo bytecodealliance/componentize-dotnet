@@ -26,5 +26,12 @@
                             PersistenceStyle="Attribute" HasConfigurationCondition="false" />
 			</StringProperty.DataSource>
 		</StringProperty>
+
+        <StringProperty Name="Registry" DisplayName="Registry" Category="Wit" Description="Selects the package to pull from an OCI registry">
+			<StringProperty.DataSource>
+				<DataSource ItemType="Wit" SourceOfDefaultValue="AfterContext"
+                            PersistenceStyle="Attribute" HasConfigurationCondition="false" />
+			</StringProperty.DataSource>
+		</StringProperty>
     </Rule>
 </ProjectSchemaDefinitions>

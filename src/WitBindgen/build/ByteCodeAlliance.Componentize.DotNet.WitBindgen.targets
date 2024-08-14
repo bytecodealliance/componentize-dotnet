@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
     <PropertyGroup>
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
 
@@ -55,6 +55,15 @@
         </ItemGroup>
     </Target>
 
+    <Target Name="PullWitOciFiles" Inputs="@(Wit)" Outputs="@(Wit)" BeforeTargets="WitCompile_GetDependencies">
+        <PropertyGroup>
+            <WitOciFile>@(Wit)</WitOciFile>
+        </PropertyGroup>
+        <Message Condition="'%(Wit.Registry)' != ''" Importance="high" Text="Pulling OCI %(Wit.Registry) to %(Wit.RelativeDir)..."  />
+        <MakeDir Condition="'%(Wit.Registry)' != '' AND !Exists('%(Wit.RelativeDir)')" Directories="%(Wit.RelativeDir)" />
+        <Exec Condition="'%(Wit.Registry)' != ''" Command="$(WkgExe) oci pull %(Wit.Registry) --output $(WitOciFile)" /> 
+    </Target>
+
     <Target Name="WitCompile_GetDependencies">
         <PropertyGroup>
             <WitGeneratedFilesRoot Condition="'$(WitGeneratedFilesRoot)' == ''">$(IntermediateOutputPath)wit_bindgen\</WitGeneratedFilesRoot>
@@ -82,8 +91,8 @@
         <!-- Need to compile cabi from c https://github.com/bytecodealliance/wit-bindgen/pull/791-->
         <ItemGroup>
             <CabiReAllocFiles Include="$(WitGeneratedFilesRoot)**\*World_cabi_realloc.c" />
-          </ItemGroup>
-          <Message Importance="high" Text="building cabi_realloc files... @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') with $(Wasicompiler)" />
+        </ItemGroup>
+        <Message Importance="high" Text="building cabi_realloc files... @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') with $(Wasicompiler)" />
         <Exec WorkingDirectory="$(WitGeneratedFilesRoot)" Command="&quot;$(Wasicompiler)&quot; @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') -c"/>
         
         <ItemGroup>

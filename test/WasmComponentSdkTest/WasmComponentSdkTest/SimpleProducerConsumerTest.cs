@@ -46,6 +46,14 @@ public class SimpleProducerConsumerTest
         Assert.Contains("123 + 456 = 579", stdout);
     }
 
+    [Fact]
+    public void CanBuildAppFromOci()
+    {
+        var composed = FindModulePath("../testapps/OciWit", "ociwit-component.wasm");
+        var stdout = ExecuteCommandComponent(composed);
+        Assert.StartsWith("Oci is awesome!", stdout);
+    }
+
     private static string ExecuteCommandComponent(string componentFilePath)
     {
         var startInfo = new ProcessStartInfo(WasmtimeExePath, $"-W component-model {componentFilePath}") { RedirectStandardOutput = true };

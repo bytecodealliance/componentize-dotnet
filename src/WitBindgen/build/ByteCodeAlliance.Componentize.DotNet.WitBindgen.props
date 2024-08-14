@@ -6,6 +6,8 @@
         <WitBindgenToolTarget>$(WitBindgenToolTarget)-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</WitBindgenToolTarget>
         <WitBindgenExe>$(MSBuildThisFileDirectory)..\tools\$(WitBindgenToolTarget)\wit-bindgen</WitBindgenExe>
         <WitBindgenExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WitBindgenExe).exe</WitBindgenExe>
+        <WkgExe>$(MSBuildThisFileDirectory)..\tools\$(WitBindgenToolTarget)\wkg</WkgExe>
+        <WkgExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WkgExe).exe</WkgExe>
         
         <!-- We have to add this to the application's project because the codegen uses unsafe in marshalling -->
         <!-- An alternative would be to emit code that uses some kind of Wit.Runtime project that deals with the unsafe aspects -->

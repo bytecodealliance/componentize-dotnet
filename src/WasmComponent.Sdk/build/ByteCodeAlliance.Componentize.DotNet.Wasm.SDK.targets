@@ -1,23 +1,6 @@
 <Project>
-    <Target Name="EmitWasmOnBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="LinkNativeLlvm; ConvertToWasmComponent"
+    <Target Name="EmitWasmOnBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="LinkNativeLlvm;"
             Condition="'$(RuntimeIdentifier)' == 'wasi-wasm'">
-        <Message Importance="high" Text="$(ProjectName) -> $([System.IO.Path]::GetFullPath('$(NativeComponentBinary)'))" />
-    </Target>
-
-    <Target Name="ConvertToWasmComponent" DependsOnTargets="GetConvertToWasmComponentDependencies" Inputs="$(WasiPreview1AdapterPath);$(NativeBinary)" Outputs="$(NativeComponentBinary)" >
-        <Exec Command="$(WasmToolsExe) component new $(NativeBinary) -o $(NativeComponentBinary) --adapt $(WasiPreview1AdapterPath)" />
-    </Target>
-
-    <Target Name="GetConvertToWasmComponentDependencies">
-        <PropertyGroup>
-            <WasiPreview1AdapterType>reactor</WasiPreview1AdapterType>
-            <WasiPreview1AdapterType Condition="'$(OutputType.ToLower())' == 'exe'">command</WasiPreview1AdapterType>
-            <WasiPreview1AdapterPath>$(MSBuildThisFileDirectory)../tools/wasi-wasm/wasi_snapshot_preview1.$(WasiPreview1AdapterType).wasm</WasiPreview1AdapterPath>
-            <!-- 
-                wasm compose requires kabab case (todo: revisit when move to wac https://github.com/bytecodealliance/componentize-dotnet/issues/5) 
-                https://github.com/bytecodealliance/wasm-tools/issues/1440
-            -->
-            <NativeComponentBinary>$(NativeOutputPath)$(TargetName.ToLower())-component.wasm</NativeComponentBinary>
-        </PropertyGroup>
+        <Message Importance="high" Text="Emit on build $(ProjectName) " />
     </Target>
 </Project>

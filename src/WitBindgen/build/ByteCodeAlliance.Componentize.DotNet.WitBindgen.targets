@@ -1,12 +1,12 @@
-<Project>
+﻿<Project>
     <PropertyGroup>
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
 
         <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
-        <WasiSdkVersion>22.0</WasiSdkVersion>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion).m-mingw64.tar.gz</WasiSdkUrl>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-linux.tar.gz</WasiSdkUrl>
-        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-macos.tar.gz</WasiSdkUrl>
+        <WasiSdkVersion>24.0</WasiSdkVersion>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-windows.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-linux.tar.gz</WasiSdkUrl>
+        <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-macos.tar.gz</WasiSdkUrl>
         <WasiSdkRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".wasi-sdk", "wasi-sdk-$(WasiSdkVersion)"))</WasiSdkRoot>
 
     </PropertyGroup>
@@ -17,9 +17,6 @@
     -->
     <Target Name="PrepareWasmSdks" BeforeTargets="CheckWasmSdks" DependsOnTargets="ObtainWasiSdk">
         <PropertyGroup>
-            <ClangExeName>clang</ClangExeName>
-            <ClangExeName Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(ClangExeName).exe</ClangExeName>
-            <Wasicompiler>$(WasiSdkRoot)\bin\$(ClangExeName)</Wasicompiler>
             <WASI_SDK_PATH>$(WasiSdkRoot)</WASI_SDK_PATH>
         </PropertyGroup>
     </Target>
@@ -46,16 +43,15 @@
     <!--
         Following generats and compiles the wit code for the c# project
     -->
-    <Target Name="WitCompile_BeforeCsCompile" BeforeTargets="BeforeCompile"
+    <Target Name="WitCompile_BeforeCsCompile" BeforeTargets="LinkNativeLlvm; BeforeCompile; "
 			Condition="'$(Language)' == 'C#' AND '@(Wit)' != ''"
             DependsOnTargets="PrepareWasmSdks; WitCompile_GetDependencies; WitCompile_InvokeTool">
         <ItemGroup>
             <Compile Include="$(WitGeneratedFilesRoot)**\*.cs" />
-            <NativeObjects Include="$(WitGeneratedFilesRoot)**\*.o" />
         </ItemGroup>
     </Target>
 
-    <Target Name="PullWitOciFiles" Inputs="@(Wit)" Outputs="@(Wit)" BeforeTargets="WitCompile_GetDependencies">
+    <Target Name="PullWitOciFiles" Inputs="@(Wit)" Outputs="@(Wit)" BeforeTargets="WitCompile_InvokeTool">
         <PropertyGroup>
             <WitOciFile>@(Wit)</WitOciFile>
         </PropertyGroup>
@@ -64,16 +60,21 @@
         <Exec Condition="'%(Wit.Registry)' != ''" Command="$(WkgExe) oci pull %(Wit.Registry) --output $(WitOciFile)" /> 
     </Target>
 
-    <Target Name="WitCompile_GetDependencies">
-        <PropertyGroup>
-            <WitGeneratedFilesRoot Condition="'$(WitGeneratedFilesRoot)' == ''">$(IntermediateOutputPath)wit_bindgen\</WitGeneratedFilesRoot>
-        </PropertyGroup>
+    <Target Name="WitCompile_GetDependencies" DependsOnTargets="WitCompile_InvokeTool">
+       
         <ItemGroup>
             <WitGeneratedCsFiles Include="$(WitGeneratedFilesRoot)**\*.cs" />
+            <WitComponentImports Include="$(WitGeneratedFilesRoot)**\*.wit"/>
+        </ItemGroup>
+        <ItemGroup>
+            <CustomLinkerArg Include="@(WitComponentImports->Replace('\', '/')->'-Wl,--component-type,&quot;%(Identity)&quot;')" />
         </ItemGroup>
     </Target>
 
     <Target Name="WitCompile_InvokeTool" Inputs="@(Wit);$(MSBuildProjectFile)" Outputs="@(WitGeneratedCsFiles);$(WitGeneratedFilesRoot)lastbuild.txt">
+        <PropertyGroup>
+            <WitGeneratedFilesRoot Condition="'$(WitGeneratedFilesRoot)' == ''">$(IntermediateOutputPath)wit_bindgen\</WitGeneratedFilesRoot>
+        </PropertyGroup>
         <ItemGroup>
             <WitGeneratedCsFiles Remove="@(WitGeneratedCsFiles)" />
             <Wit Update="@(Wit)">
@@ -87,13 +88,6 @@
         <MakeDir Directories="$(WitGeneratedFilesRoot)" />
         <Exec Command="$(WitBindgenExe) c-sharp %(Wit.Identity) %(Wit.WitWorldArg) --runtime $(WitBindgenRuntime) --out-dir $(WitGeneratedFilesRoot)" />
         <WriteLinesToFile File="$(WitGeneratedFilesRoot)lastbuild.txt" Lines="" Overwrite="true" />
-
-        <!-- Need to compile cabi from c https://github.com/bytecodealliance/wit-bindgen/pull/791-->
-        <ItemGroup>
-            <CabiReAllocFiles Include="$(WitGeneratedFilesRoot)**\*World_cabi_realloc.c" />
-        </ItemGroup>
-        <Message Importance="high" Text="building cabi_realloc files... @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') with $(Wasicompiler)" />
-        <Exec WorkingDirectory="$(WitGeneratedFilesRoot)" Command="&quot;$(Wasicompiler)&quot; @(CabiReAllocFiles->'&quot;%(FullPath)&quot;', ' ') -c"/>
         
         <ItemGroup>
             <WitGeneratedCsFiles Include="$(WitGeneratedFilesRoot)**\*.cs" />

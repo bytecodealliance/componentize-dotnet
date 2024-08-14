@@ -101,12 +101,6 @@ Another option, if you use Visual Studio, is to select the WIT file in *Solution
 
 You can simply type the world name `hostapp` into the properties pane.
 
-For now, you must also specify the functions you want to import in the `.csproj` file.  Add this to the `ItemGroup`:
-
-```xml
-    <WasmImport Include="example:calculator/operations!add" />
-```
-
 Now you can call the imported `Add` function by putting the following in `Program.cs`:
 
 ```cs

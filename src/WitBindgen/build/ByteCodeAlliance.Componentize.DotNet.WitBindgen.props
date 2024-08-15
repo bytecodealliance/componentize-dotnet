@@ -26,7 +26,7 @@
             <Context>File;BrowseObject</Context>
         </PropertyPageSchema>
 
-        <Wit Include="*.wit" />
+        <Wit Include="*.wit;wit/*.wit" />
 
         <!-- Treats this itemgroup as a compilation input (e.g., changes affect VS fast up-to-date check, and generator is shown in properties pane) -->
         <AvailableItemName Include="Wit" />

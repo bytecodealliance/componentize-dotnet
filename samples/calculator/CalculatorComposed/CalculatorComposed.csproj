@@ -15,7 +15,7 @@
       <ProjectReference Include="..\CalculatorHost\CalculatorHost.csproj" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
-    <Target Name="ComposeWasmComponent" AfterTargets="Build">
+    <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
         <PropertyGroup>
             <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/calculatorhost.wasm</EntrypointComponent>
             <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder.wasm</DependencyComponent>

@@ -27,7 +27,7 @@
     </ItemGroup>
     
     <!-- After build, create the composed component so it can be executed in the test -->
-    <Target Name="ComposeWasmComponent" DependsOnTargets="CopyFilesToOutputDirectory">
+    <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
         <PropertyGroup>
             <DependencyComponent>../E2EProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2eproducer.wasm</DependencyComponent>
         </PropertyGroup>

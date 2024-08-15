@@ -24,20 +24,16 @@
 
     <ItemGroup>
         <Wit Include="..\E2EProducer\producer-consumer.wit" World="consumer" />
-
-        <!-- Ideally this would be unnecessary, either because the MSBuild tooling adds it automatically, -->
-        <!-- or better still, the generated .cs code should include the full required annotations -->
-        <WasmImport Include="test:producer-consumer/operations!add" />
     </ItemGroup>
     
     <!-- After build, create the composed component so it can be executed in the test -->
-    <Target Name="ComposeWasmComponent" AfterTargets="ConvertToWasmComponent">
+    <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
         <PropertyGroup>
-            <DependencyComponent>../E2EProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2eproducer-component.wasm</DependencyComponent>
+            <DependencyComponent>../E2EProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2eproducer.wasm</DependencyComponent>
         </PropertyGroup>
 
         <MakeDir Directories="dist" />
-        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/e2econsumer-component.wasm -d $(DependencyComponent)" />
+        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm $(NativeOutputPath)$(TargetName.ToLower()).wasm -d $(DependencyComponent)" />
     </Target>
 
 </Project>

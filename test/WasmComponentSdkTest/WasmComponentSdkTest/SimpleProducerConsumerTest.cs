@@ -19,21 +19,21 @@ public class SimpleProducerConsumerTest
     [Fact]
     public void CanBuildComponentWithImport()
     {
-        var witInfo = GetWitInfo(FindModulePath($"../testapps/SimpleConsumer/bin/{Config}", "simpleconsumer-component.wasm"));
+        var witInfo = GetWitInfo(FindModulePath($"../testapps/SimpleConsumer/bin/{Config}", "simpleconsumer.wasm"));
         Assert.Contains("import test:producer-consumer/operations", witInfo);
     }
 
     [Fact]
     public void CanBuildComponentWithExport()
     {
-        var witInfo = GetWitInfo(FindModulePath($"../testapps/SimpleProducer/bin/{Config}", "simpleproducer-component.wasm"));
+        var witInfo = GetWitInfo(FindModulePath($"../testapps/SimpleProducer/bin/{Config}", "simpleproducer.wasm"));
         Assert.Contains("export test:producer-consumer/operations", witInfo);
     }
 
     [Fact]
     public void CanBuildComponentWithWitPackage()
     {
-        var witInfo = GetWitInfo(FindModulePath($"../testapps/AppWithWitFolder/bin/{Config}", "appwithwitfolder-component.wasm"));
+        var witInfo = GetWitInfo(FindModulePath($"../testapps/AppWithWitFolder/bin/{Config}", "appwithwitfolder.wasm"));
         Assert.Contains("import test:pkg/folder", witInfo);
     }
 
@@ -49,7 +49,7 @@ public class SimpleProducerConsumerTest
     [Fact]
     public void CanBuildAppFromOci()
     {
-        var composed = FindModulePath("../testapps/OciWit", "ociwit-component.wasm");
+        var composed = FindModulePath("../testapps/OciWit", "ociwit.wasm");
         var stdout = ExecuteCommandComponent(composed);
         Assert.StartsWith("Oci is awesome!", stdout);
     }

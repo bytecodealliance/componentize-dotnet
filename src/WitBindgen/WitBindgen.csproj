@@ -19,7 +19,7 @@
         <!-- Things you might want to edit -->
         <!-- Set BuildWitBindgenLocally to true if you want to build modules/wit-bindgen locally and use its output -->
         <BuildWitBindgenLocally>false</BuildWitBindgenLocally>
-        <PrebuiltWitBindgenVersion>0.29.0</PrebuiltWitBindgenVersion>
+        <PrebuiltWitBindgenVersion>0.30.0</PrebuiltWitBindgenVersion>
         <PrebuiltWitBindgenBaseUrl>https://github.com/bytecodealliance/wit-bindgen/releases/download/v$(PrebuiltWitBindgenVersion)/wit-bindgen-$(PrebuiltWitBindgenVersion)</PrebuiltWitBindgenBaseUrl>
         <WitBindgenModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wit-bindgen\</WitBindgenModuleRoot>
 

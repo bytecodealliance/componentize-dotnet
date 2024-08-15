@@ -1,3 +1,7 @@
+<a href="https://www.nuget.org/packages/BytecodeAlliance.Componentize.DotNet.Wasm.SDK">
+      <img src="https://img.shields.io/nuget/v/BytecodeAlliance.Componentize.DotNet.Wasm.SDK" alt="Latest Version"/>
+</a>
+
 # componentize-dotnet
 
 Simplifying C# wasm components 
@@ -47,27 +51,26 @@ Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation
 
 If you have a recent version of [wasmtime](https://github.com/bytecodealliance/wasmtime/releases) on your path, you can now run
 
-    wasmtime bin\Debug\net8.0\wasi-wasm\native\MyApp.wasm
+```bash
+wasmtime bin\Debug\net8.0\wasi-wasm\native\MyApp.wasm
+```
 
 (if needed, replace `MyApp.wasm` with the actual name of your project)
 
 ## Creating a WASI 0.2 component, including WIT support
-
-This is much more advanced and is likely to break frequently, since the underlying tool ecosystem is continually changing.
-
-The compilation above will also have generated `MyApp.component.wasm`, which is a WASI 0.2 component. You can also run that if you want, using `wasmtime --wasm component-model bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm`.
-
-**Troubleshooting:** If you get an error like *import 'wasi:...' has the wrong type*, you need a different version of Wasmtime. Currently this package targets [Wasmtime](https://github.com/bytecodealliance/wasmtime/releases/tag/v14.0.4). WASI 0.2 is now stable and so you shouldn't run into this as often.
+Lastest version of NativeAOT compiler package and the mono support in dotnet 9-preview 7 build native wasi 0.2 components with no additional tools.
 
 ### Referencing a WIT file
 
 The whole point of the WASI 0.2 component model is to be able to interoperate across components. This is achieved using [WebAssembly Interface Type (WIT)](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md) files that specify data structures and functions to be imported or exported across components.
 
-This package wraps `wit-bindgen` so that any `.wit` files in your project will automatically generate corresponding C# sources, allowing you to import or export functionality. **Caution:** wit-bindgen's support for C# is *extremely early* and many definitions do not yet work.
+There is a full sample of this walk through creating WIT components for you reference in [samples](./samples/).  
 
-For example, add a file called `calculator.wit` into your project, containing:
+This package wraps `wit-bindgen` so that any `.wit` files in your project will automatically generate corresponding C# sources, allowing you to import or export functionality. 
 
-```
+For example, add a file called `calculator.wit` into your project, containing the following:
+
+```js
 package example:calculator;
 
 interface operations {
@@ -104,28 +107,20 @@ You can simply type the world name `hostapp` into the properties pane.
 Now you can call the imported `Add` function by putting the following in `Program.cs`:
 
 ```cs
-using wit_hostapp.Wit.imports.example.calculator.Operations;
+using HostappWorld.wit.imports.example.calculator;
 
-var result = OperationsInterop.Add(123, 456);
-Console.WriteLine($"The result is {result}");
+var left = 123;
+var right = 456;
+var result = OperationsInterop.Add(left, right);
+Console.WriteLine($"{left} + {right} = {result}");
+
+Console.WriteLine(OperationsInterop.ToUpper("Hello, World!"));
 ```
 
 Since your component is no longer a self-contained application, you can no longer run it without also composing it with another WASI 0.2 component that implements the `add` function. To do that, either:
 
- * Create another .NET project and this time follow the steps for "exporting an implementation" below
+ * Create another .NET project and this time follow the steps for [exporting an implementation](#exporting-an-implementation) below
  * Or, read docs for other platforms such as Rust or TinyGo, to implement a WASI component containing the implementation.
-
-Once you have a component containing the implementation, you can use [wasm-tools](https://github.com/bytecodealliance/wasm-tools) to compose a runnable application:
-
-```
-wasm-tools compose -o composed.wasm MyApp.component.wasm -d AddImplementation.component.wasm
-```
-
-... then run it:
-
-```
-wasmtime --wasm component-model composed.wasm
-```
 
 #### Exporting an implementation
 
@@ -136,13 +131,18 @@ Once you've done that, change your WIT file to use the `calculator` world using 
 Now when you build, you'll get an error like `The name 'OperationsImpl' does not exist in the current context`. This is because you've said you'll provide an implementation, but haven't yet done so. To fix this, add the following class to your project:
 
 ```cs
-namespace wit_computer.Wit.exports.example.calculator.Operations;
+namespace ComputerWorld.wit.exports.example.calculator;
 
-public class OperationsImpl : Operations
+public class OperationsImpl : IOperations
 {
     public static int Add(int left, int right)
     {
         return left + right;
+    }
+
+    public static string ToUpper(string input)
+    {
+        return input.ToUpperInvariant();
     }
 }
 ```
@@ -151,13 +151,13 @@ Make sure to get the namespace exactly correct! Although this is quite difficult
 
 Now when you build, you'll get a real WASI 0.2 component that exports an implementation for this WIT definition. You can confirm it using [wasm-tools](https://github.com/bytecodealliance/wasm-tools) by running:
 
-```
-wasm-tools component wit bin\Debug\net8.0\wasi-wasm\native\MyApp.component.wasm
+```bash
+wasm-tools component wit bin\Debug\net8.0\wasi-wasm\native\MyApp.wasm
 ```
 
 Outputs:
 
-```
+```js
 package root:component;
 
 world root {
@@ -167,7 +167,39 @@ world root {
 }
 ```
 
-This component can be used anywhere that WASI 0.2 components can be used. For example, use `wasm-tools compose` as illustrated above.
+## Composing components
+
+Once you have a components containing the Adder and Calculator host, you can use [wasm-tools](https://github.com/bytecodealliance/wasm-tools) to compose a runnable application:
+
+```bash
+wasm-tools compose -o composed.wasm MyApp.wasm -d AddImplementation.wasm
+```
+
+then run it:
+
+```bash
+wasmtime composed.wasm
+```
+
+While you can run wasm-tools manually, you can also generate this automatically.  One way to do this is to [create a new project](./samples/calculator/CalculatorComposed/) and add the following:
+
+```xml
+ <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
+        <PropertyGroup>
+            <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/calculatorhost.wasm</EntrypointComponent>
+            <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder.wasm</DependencyComponent>
+        </PropertyGroup>
+        
+        <MakeDir Directories="dist" />
+        <Exec Command="$(WasmToolsExe) compose -o dist/calculator.wasm $(EntrypointComponent) -d $(DependencyComponent)" />
+    </Target>
+```
+
+Another option is to do it from the project where the final component will be composed as the output.  See the example in the [e2e tests](test/E2ETest/testapps/E2EConsumer/E2EConsumer.csproj)
+
+You can also use this technique to use other [wasm-tools](https://github.com/bytecodealliance/wasm-tools) functionality such as `wasm-tools strip` to produce a final binary.
+
+This final component can be used anywhere that WASI 0.2 components can be used. For example, use `wasmtime` as illustrated above.
 
 ### Referencing Wit Packages
 
@@ -190,7 +222,6 @@ Wit can be packaged into [OCI Artifacts](https://tag-runtime.cncf.io/wgs/wasm/de
   </ItemGroup>
 ```
 
-
 ### WIT strings and memory
 
 The calculator example above works easily because it doesn't need to allocate memory dynamically. Once you start working with strings, you must add an extra line to the `<PropertyGroup>` in your _host_ `.csproj` file (that is, the application that's _importing_ the interface):
@@ -202,6 +233,26 @@ The calculator example above works easily because it doesn't need to allocate me
 (You don't need to add this to your class library/exporting `.csproj`.)
 
 If you get a build error along the lines of _failed to encode a component from module ... module does not export a function named `cabi_realloc`_ then check you have remembered to add this line.
+
+### Troubleshooting
+
+#### Imports Wrong Type
+```bash
+*import 'wasi:...' has the wrong type* 
+```
+
+You need a different version of Wasmtime. Currently this package targets [Wasmtime](https://github.com/bytecodealliance/wasmtime/releases/tag/v23.0.2). WASI 0.2 is now stable and so you shouldn't run into this often.
+
+#### Component imports missing
+```bash
+Error: component imports instance `wasi:cli/environment@0.2.0`, but a matching implementation was not found in the linker
+
+Caused by:
+    0: instance export `get-environment` has the wrong type
+    1: function implementation is missing
+```
+
+Some imports automatically imported since they are so common.  In this case you should tell the runtime to implement those imports. For instance for the error above, in wasmtime you might add `-S cli` to the `wasmtime serve` command like `wasmtime serve -S cli` to include the `wasi:cli/environment@0.2.0` in wasmtime runtime host implementation.
 
 ## Credits
 

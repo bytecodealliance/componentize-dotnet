@@ -113,8 +113,6 @@ var left = 123;
 var right = 456;
 var result = OperationsInterop.Add(left, right);
 Console.WriteLine($"{left} + {right} = {result}");
-
-Console.WriteLine(OperationsInterop.ToUpper("Hello, World!"));
 ```
 
 Since your component is no longer a self-contained application, you can no longer run it without also composing it with another WASI 0.2 component that implements the `add` function. To do that, either:
@@ -126,7 +124,7 @@ Since your component is no longer a self-contained application, you can no longe
 
 If you're **exporting** functionality, you'll be building a class library, not an executable. So be sure to go to your `.csproj` and change `<OutputType>` from `exe` to `library` and delete any `Program.cs`.
 
-Once you've done that, change your WIT file to use the `calculator` world using one of the two techniques described above (i.e., either edit the `.csproj` or use the VS Properties pane).
+Once you've done that, change your WIT file to use the `computer` world using one of the two techniques described above (i.e., either edit the `.csproj` or use the VS Properties pane).
 
 Now when you build, you'll get an error like `The name 'OperationsImpl' does not exist in the current context`. This is because you've said you'll provide an implementation, but haven't yet done so. To fix this, add the following class to your project:
 

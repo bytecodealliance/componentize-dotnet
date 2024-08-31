@@ -38,7 +38,7 @@
         <RemoveDir Directories="..\testapps\E2EProducer\obj" />
         <RemoveDir Directories="..\testapps\E2EConsumer\obj" />
         <Exec Command="dotnet restore --no-cache" WorkingDirectory="..\testapps\E2EConsumer" />
-        <Exec Command="dotnet build --no-restore" WorkingDirectory="..\testapps\E2EConsumer" />
+        <Exec Command="dotnet build --no-restore /bl" WorkingDirectory="..\testapps\E2EConsumer" />
     </Target>
 
     <Target Name="PackPackagesForE2ETest">

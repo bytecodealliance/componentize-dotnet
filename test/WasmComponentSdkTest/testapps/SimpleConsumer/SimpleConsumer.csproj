@@ -31,7 +31,7 @@
         </PropertyGroup>
 
         <MakeDir Directories="dist" />
-        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm $(NativeOutputPath)$(TargetName.ToLower()).wasm -d $(DependencyComponent)" />
+        <Exec Command="$(WasmToolsExe) compose -o dist/composed.wasm $(NativeOutputPath)$(TargetName).wasm -d $(DependencyComponent)" />
     </Target>
 
 </Project>

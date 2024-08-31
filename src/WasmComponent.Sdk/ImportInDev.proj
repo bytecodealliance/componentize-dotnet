@@ -7,6 +7,6 @@
 
     <ItemGroup>
 		<PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" />
-		<PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler.LLVM" />
+		<PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" />
 	</ItemGroup>
 </Project>

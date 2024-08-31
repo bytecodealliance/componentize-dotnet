@@ -11,10 +11,11 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
+        <TargetName>e2eproducer</TargetName>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
+        <PackageReference Include="ByteCodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
     </ItemGroup>
 
     <ItemGroup>

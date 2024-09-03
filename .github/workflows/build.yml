@@ -37,7 +37,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: nuget-packages-${{ martix.os }}
+        name: nuget-packages-${{ matrix.os }}
         path: artifacts/*.nupkg
         if-no-files-found: error
       if: ${{ matrix.dotnet  == '8.x' }} # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact

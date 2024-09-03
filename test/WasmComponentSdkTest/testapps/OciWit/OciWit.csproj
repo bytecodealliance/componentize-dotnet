@@ -9,6 +9,7 @@
 
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+        <TargetName>ociwit</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

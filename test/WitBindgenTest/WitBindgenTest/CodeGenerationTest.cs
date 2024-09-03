@@ -1,5 +1,6 @@
 using MyFuncsWorld;
 using ProducerWorld;
+using System;
 using Xunit;
 
 namespace WitBindgenTest;
@@ -14,7 +15,8 @@ public class CodeGenerationTest
             LibraryUsingWit.Code.CallSimpleDoSomething());
 
         // Currently, it generates [DllImport("*", ...)] so validate that
-        Assert.StartsWith("Unable to load DLL", ex.Message);
+        var expectedErrorMessagePrefix = "Unable to load " + (OperatingSystem.IsWindows() ? "DLL" : "shared library");
+        Assert.StartsWith(expectedErrorMessagePrefix, ex.Message);
     }
 
     [Fact]

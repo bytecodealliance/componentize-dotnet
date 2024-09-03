@@ -13,7 +13,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    name: Build with Dotnet ${{ matrix.dotnet }}
+    name: Build on ${{ matrix.os }} with Dotnet ${{ matrix.dotnet }}
     strategy:
       matrix:
         dotnet: [ '8.x', '9.0.100-preview.4.24267.66']
@@ -37,7 +37,7 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: nuget-packages
+        name: nuget-packages-${{ martix.os }}
         path: artifacts/*.nupkg
         if-no-files-found: error
       if: ${{ matrix.dotnet  == '8.x' }} # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact

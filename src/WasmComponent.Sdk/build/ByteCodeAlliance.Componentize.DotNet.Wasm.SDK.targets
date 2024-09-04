@@ -1,6 +1,0 @@
-<Project>
-    <Target Name="EmitWasmOnBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="LinkNativeLlvm;"
-            Condition="'$(RuntimeIdentifier)' == 'wasi-wasm'">
-        <Message Importance="high" Text="Emit on build $(ProjectName) " />
-    </Target>
-</Project>

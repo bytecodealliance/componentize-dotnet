@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="build\ByteCodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
+    <Import Project="build\BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
 
     <PropertyGroup>
         <PackageId>BytecodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>

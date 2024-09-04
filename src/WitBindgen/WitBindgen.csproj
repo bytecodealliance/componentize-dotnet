@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="build\ByteCodeAlliance.Componentize.DotNet.WitBindgen.props" />
+    <Import Project="build\BytecodeAlliance.Componentize.DotNet.WitBindgen.props" />
 
     <PropertyGroup>
         <PackageId>BytecodeAlliance.Componentize.DotNet.WitBindgen</PackageId>
@@ -80,7 +80,7 @@
         <RemoveDir Directories="tools\temp" />
 
         <DownloadFile SourceUrl="$(PrebuildWkgBaseUrl)-%(PrebuiltToolTarget.wkg)" DestinationFolder="tools\%(PrebuiltToolTarget.Rid)" DestinationFileName="wkg%(PrebuiltToolTarget.ExeExt)" />
-        <Exec Command="chmod +x &quot;tools/%(PrebuiltToolTarget.Rid)/wkg%(PrebuiltToolTarget.ExeExt)&quot;" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
+        <Exec Command="chmod +x &quot;tools/%(PrebuiltToolTarget.Rid)/wkg%(PrebuiltToolTarget.ExeExt)&quot;" Condition="$([MSBuild]::IsOSPlatform('Windows')) != 'true'" />
         <WriteLinesToFile File="$(CurrentWkgVersion)" Lines="$(PrebuildWkgVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
     </Target>
 

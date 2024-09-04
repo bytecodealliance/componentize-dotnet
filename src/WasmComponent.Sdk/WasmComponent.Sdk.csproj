@@ -67,7 +67,8 @@
             <PrebuiltWasmToolsTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" />
             <PrebuiltWasmToolsTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" />
             <PrebuiltWasmToolsTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" />
-            <!-- tar on non-Windows often cannot handle zip archives -->
+            <!-- tar on non-Windows often cannot handle zip archives.  Until we have a solution, we canonly publish the packages from the Windows build. 
+                 See https://github.com/bytecodealliance/componentize-dotnet/issues/41 -->
             <PrebuiltWasmToolsTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
         </ItemGroup>
         <ItemGroup>

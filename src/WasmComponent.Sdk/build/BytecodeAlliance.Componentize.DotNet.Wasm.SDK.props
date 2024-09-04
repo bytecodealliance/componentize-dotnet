@@ -1,0 +1,14 @@
+<Project>
+	<PropertyGroup>
+		<PublishTrimmed>true</PublishTrimmed>
+		<UseAppHost>false</UseAppHost>
+		<MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
+
+		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Windows'))">win</WasmToolsTarget>
+		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</WasmToolsTarget>
+		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx</WasmToolsTarget>
+		<WasmToolsTarget>$(WasmToolsTarget)-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</WasmToolsTarget>
+		<WasmToolsExe>$(MSBuildThisFileDirectory)..\tools\$(WasmToolsTarget)\wasm-tools</WasmToolsExe>
+		<WasmToolsExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WasmToolsExe).exe</WasmToolsExe>
+	</PropertyGroup>
+</Project>

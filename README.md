@@ -36,7 +36,12 @@ If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com
 Create a `nuget.config` file and add the `dotnet-experimental` package source for the `NativeAOT-LLVM` dependency:
 
 * `dotnet new nugetconfig`
-* Add the key to `nuget.config` after `<clear />`: `<add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />`
+* Add these keys to `nuget.config` after `<clear />`:
+
+```xml
+    <add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />
+    <add key="nuget" value="https://api.nuget.org/v3/index.json" />
+```
 
 Add the `componentize-dotnet` package:
 

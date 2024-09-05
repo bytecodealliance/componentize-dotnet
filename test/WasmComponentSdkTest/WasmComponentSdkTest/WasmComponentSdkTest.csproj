@@ -3,7 +3,7 @@
     <Import Project="..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net8.0;net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <SelfContained>false</SelfContained>
@@ -30,6 +30,7 @@
         <ProjectReference Include="..\testapps\SimpleConsumer\SimpleConsumer.csproj" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\testapps\AppWithWitFolder\AppWithWitFolder.csproj" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\testapps\OciWit\OciWit.csproj" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\testapps\MonoApp\MonoApp.csproj" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
 </Project>

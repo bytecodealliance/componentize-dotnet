@@ -3,3 +3,4 @@ obj/
 .vs/
 artifacts/
 test/WasmComponentSdkTest/testapps/OciWit/wit
+.DS_Store

@@ -14,7 +14,7 @@
         <!-- This is a marker file that lets the build scripts identity if the files need to be modified when updating versions -->
         <CurrentWasmtimeVersion>$(MSBuildThisFileDirectory)tools\version-$(WasmtimeVersion)</CurrentWasmtimeVersion>
 
-        <WasmtimeUrlExtension>.tar.gz</WasmtimeUrlExtension>
+        <WasmtimeUrlExtension>.tar.xz</WasmtimeUrlExtension>
         <WasmtimeUrlExtension Condition="$([MSBuild]::IsOSPlatform('Windows'))">.zip</WasmtimeUrlExtension>
         <WasmtimeUrl>https://github.com/bytecodealliance/wasmtime/releases/download/v$(WasmtimeVersion)/wasmtime-v$(WasmtimeVersion)-$(WasmtimeTarget)$(WasmtimeUrlExtension)</WasmtimeUrl>
     </PropertyGroup>

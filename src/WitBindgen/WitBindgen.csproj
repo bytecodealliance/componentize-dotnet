@@ -62,7 +62,8 @@
             <PrebuiltToolTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" wkg="aarch64-apple-darwin"/>
             <PrebuiltToolTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" wkg="x86_64-unknown-linux-gnu"/>
             <PrebuiltToolTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" wkg="x86_64-apple-darwin"/>
-            <PrebuiltToolTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" wkg="x86_64-pc-windows-gnu" />
+            <!-- tar on non-Windows often cannot handle zip archives -->
+            <PrebuiltToolTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" wkg="x86_64-pc-windows-gnu" Condition="$([MSBuild]::IsOSPlatform('Windows'))"/>
         </ItemGroup>
         <ItemGroup>
             <PrebuiltWitBindgenOutputs Include="tools\%(PrebuiltToolTarget.Rid)\wit-bindgen%(PrebuiltToolTarget.ExeExt)" />
@@ -79,6 +80,7 @@
         <RemoveDir Directories="tools\temp" />
 
         <DownloadFile SourceUrl="$(PrebuildWkgBaseUrl)-%(PrebuiltToolTarget.wkg)" DestinationFolder="tools\%(PrebuiltToolTarget.Rid)" DestinationFileName="wkg%(PrebuiltToolTarget.ExeExt)" />
+        <Exec Command="chmod +x &quot;tools/%(PrebuiltToolTarget.Rid)/wkg%(PrebuiltToolTarget.ExeExt)&quot;" Condition="$([MSBuild]::IsOSPlatform('Windows')) != 'true'" />
         <WriteLinesToFile File="$(CurrentWkgVersion)" Lines="$(PrebuildWkgVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
     </Target>
 

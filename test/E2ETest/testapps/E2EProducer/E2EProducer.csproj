@@ -11,6 +11,7 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
+        <TargetName>e2eproducer</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

@@ -10,6 +10,8 @@
 
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+        <!-- Kebab case probably better -->
+        <TargetName>simpleproducer</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

@@ -13,6 +13,7 @@
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <UseAppHost>false</UseAppHost>
         <PublishTrimmed>true</PublishTrimmed>
+        <TargetName>e2econsumer</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

@@ -11,6 +11,9 @@
 
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+
+        <!-- Need kebab case -->
+        <TargetName>adder</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

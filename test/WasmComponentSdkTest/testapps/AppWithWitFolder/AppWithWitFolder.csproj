@@ -11,6 +11,7 @@
 
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+        <TargetName>appwithwitfolder</TargetName>
     </PropertyGroup>
 
     <ItemGroup>

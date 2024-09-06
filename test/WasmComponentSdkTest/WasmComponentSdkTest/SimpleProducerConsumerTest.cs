@@ -89,6 +89,11 @@ public class SimpleProducerConsumerTest
         }
 
         var matches = Directory.GetFiles(resolvedSearchDir, filename, SearchOption.AllDirectories);
+        if (matches.Count() != 1)
+        {
+            throw new Exception($"Failed to get modules path, matched {matches.Count()} entries for directory {resolvedSearchDir} and filename {filename}.");
+        }
+
         return Path.GetFullPath(matches.Single());
     }
 }

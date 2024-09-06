@@ -32,7 +32,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
-        <PackageReference Include="runtime.win-x64.Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
         <ProjectReference Include="..\WitBindgen\WitBindgen.csproj" PrivateAssets="None" />
     </ItemGroup>
 
@@ -67,7 +67,9 @@
             <PrebuiltWasmToolsTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" />
             <PrebuiltWasmToolsTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" />
             <PrebuiltWasmToolsTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" />
-            <PrebuiltWasmToolsTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" />
+            <!-- tar on non-Windows often cannot handle zip archives.  Until we have a solution, we canonly publish the packages from the Windows build. 
+                 See https://github.com/bytecodealliance/componentize-dotnet/issues/41 -->
+            <PrebuiltWasmToolsTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
         </ItemGroup>
         <ItemGroup>
             <PrebuiltWasmToolsOutputs Include="tools\%(PrebuiltWasmToolsTarget.Rid)\wasm-tools%(PrebuiltWasmToolsTarget.ExeExt)" />

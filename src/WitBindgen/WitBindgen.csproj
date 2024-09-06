@@ -26,8 +26,8 @@
         <!-- This is a marker file that lets the build scripts identity if the files need to be modified when updating versions -->
         <CurrentWitBindgenVersion>$(MSBuildThisFileDirectory)tools\version-wit-bindgen-$(PrebuiltWitBindgenVersion)</CurrentWitBindgenVersion>
 
-        <PrebuildWkgVersion>dev</PrebuildWkgVersion>
-        <PrebuildWkgBaseUrl>https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/$(PrebuildWkgVersion)/wkg</PrebuildWkgBaseUrl>
+        <PrebuildWkgVersion>0.5.1</PrebuildWkgVersion>
+        <PrebuildWkgBaseUrl>https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/v$(PrebuildWkgVersion)/wkg</PrebuildWkgBaseUrl>
         <CurrentWkgVersion>$(MSBuildThisFileDirectory)tools\version-wkg-$(PrebuildWkgVersion)</CurrentWkgVersion>
 
         <!-- Don't pack any assemblies in lib/*/.dll.-->

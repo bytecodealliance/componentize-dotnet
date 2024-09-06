@@ -4,3 +4,4 @@ obj/
 artifacts/
 test/WasmComponentSdkTest/testapps/OciWit/wit
 *.binlog
+.DS_Store

@@ -34,11 +34,13 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
+    # must use windows to generate package https://github.com/bytecodealliance/componentize-dotnet/issues/41
+    # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: nuget-packages-${{ matrix.os }}
+        name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
-      if: ${{ matrix.dotnet  == '8.x' }} # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact
+      if: ${{ matrix.dotnet  == '8.x' && matrix.os == 'windows-latest' }} 
 

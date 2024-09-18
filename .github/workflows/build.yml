@@ -16,7 +16,7 @@ jobs:
     name: Build on ${{ matrix.os }} with Dotnet ${{ matrix.dotnet }}
     strategy:
       matrix:
-        dotnet: [ '8.x', '9.0.100-preview.4.24267.66']
+        dotnet: [ '8.x', '9.0.100-rc.1.24452.12']
         os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4

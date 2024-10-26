@@ -19,14 +19,14 @@
         <!-- Things you might want to edit -->
         <!-- Set BuildWitBindgenLocally to true if you want to build modules/wit-bindgen locally and use its output -->
         <BuildWitBindgenLocally>false</BuildWitBindgenLocally>
-        <PrebuiltWitBindgenVersion>0.30.0</PrebuiltWitBindgenVersion>
+        <PrebuiltWitBindgenVersion>0.34.0</PrebuiltWitBindgenVersion>
         <PrebuiltWitBindgenBaseUrl>https://github.com/bytecodealliance/wit-bindgen/releases/download/v$(PrebuiltWitBindgenVersion)/wit-bindgen-$(PrebuiltWitBindgenVersion)</PrebuiltWitBindgenBaseUrl>
         <WitBindgenModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wit-bindgen\</WitBindgenModuleRoot>
 
         <!-- This is a marker file that lets the build scripts identity if the files need to be modified when updating versions -->
         <CurrentWitBindgenVersion>$(MSBuildThisFileDirectory)tools\version-wit-bindgen-$(PrebuiltWitBindgenVersion)</CurrentWitBindgenVersion>
 
-        <PrebuildWkgVersion>0.5.1</PrebuildWkgVersion>
+        <PrebuildWkgVersion>0.8.1</PrebuildWkgVersion>
         <PrebuildWkgBaseUrl>https://github.com/bytecodealliance/wasm-pkg-tools/releases/download/v$(PrebuildWkgVersion)/wkg</PrebuildWkgBaseUrl>
         <CurrentWkgVersion>$(MSBuildThisFileDirectory)tools\version-wkg-$(PrebuildWkgVersion)</CurrentWkgVersion>
 

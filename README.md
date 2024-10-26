@@ -22,8 +22,6 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 ## Getting started
 
-**Limitation**: Although the resulting `.wasm` files can run on any OS, [the compiler itself is currently limited to Windows](https://github.com/dotnet/runtimelab/issues/1890#issuecomment-1221602595). 
-
 ### 1. Set up SDKs
 
 If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
@@ -56,6 +54,7 @@ Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
     <UseAppHost>false</UseAppHost>
     <PublishTrimmed>true</PublishTrimmed>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <SelfContained>true</SelfContained>
 ```
 
 Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.

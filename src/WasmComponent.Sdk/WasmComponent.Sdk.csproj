@@ -31,8 +31,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
         <ProjectReference Include="..\WitBindgen\WitBindgen.csproj" PrivateAssets="None" />
     </ItemGroup>
 

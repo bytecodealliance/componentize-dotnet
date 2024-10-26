@@ -4,8 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- find latest versions at https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental by name of package -->
-    <PackageVersion Include="Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-rc.1.24468.1" />
-    <PackageVersion Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="9.0.0-rc.1.24468.1" />
+    <PackageVersion Include="Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.24525.6" />
+    <PackageVersion Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.24525.6" />
 
     <!-- Tests -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.6.0" />

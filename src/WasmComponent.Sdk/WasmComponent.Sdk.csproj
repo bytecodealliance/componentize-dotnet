@@ -19,7 +19,7 @@
         <!-- Things you might want to edit -->
         <!-- Set BuildWasmToolsLocally to true if you want to build modules/wasm-tools locally and use its output -->
         <BuildWasmToolsLocally>false</BuildWasmToolsLocally>
-        <PrebuiltWasmToolsVersion>1.209.1</PrebuiltWasmToolsVersion>
+        <PrebuiltWasmToolsVersion>1.219.1</PrebuiltWasmToolsVersion>
         <PrebuiltWasmToolsBaseUrl>https://github.com/bytecodealliance/wasm-tools/releases/download/v$(PrebuiltWasmToolsVersion)/wasm-tools-$(PrebuiltWasmToolsVersion)</PrebuiltWasmToolsBaseUrl>
         <WasmtimeVersionForWasiSnapshotPreview1Adapters>21.0.1</WasmtimeVersionForWasiSnapshotPreview1Adapters>
 

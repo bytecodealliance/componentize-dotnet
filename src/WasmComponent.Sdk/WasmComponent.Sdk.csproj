@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="build\BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
 
     <PropertyGroup>
         <PackageId>BytecodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>
@@ -36,10 +35,6 @@
 
     <ItemGroup>
         <None Include="../../Readme.md" Pack="true" PackagePath="\"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="ImportInDev.proj" />
     </ItemGroup>
 
     <Target Name="BuildOrDownloadNativeTooling" BeforeTargets="Build" DependsOnTargets="BuildNativeTooling; DownloadNativeTooling;">

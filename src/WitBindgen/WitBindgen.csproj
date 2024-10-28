@@ -84,10 +84,6 @@
         <WriteLinesToFile File="$(CurrentWkgVersion)" Lines="$(PrebuildWkgVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
     </Target>
 
-    <ItemGroup>
-        <None Include="ImportInDev.proj" />
-    </ItemGroup>
-
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
         <ItemGroup>
             <_PackageFiles Include="build\**" BuildAction="Content" PackagePath="build" />

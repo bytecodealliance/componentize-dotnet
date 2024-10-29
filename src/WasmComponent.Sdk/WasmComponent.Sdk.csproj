@@ -37,6 +37,10 @@
         <None Include="../../Readme.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <None Include="ImportInDev.proj" />
+    </ItemGroup>
+
     <Target Name="BuildOrDownloadNativeTooling" BeforeTargets="Build" DependsOnTargets="BuildNativeTooling; DownloadNativeTooling;">
     </Target>
 

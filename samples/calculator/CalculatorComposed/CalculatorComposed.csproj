@@ -8,6 +8,9 @@
 
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
+        <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+        <IlcExportUnmanagedEntrypoints>true</IlcExportUnmanagedEntrypoints>
+        <PublishTrimmed>false</PublishTrimmed>
     </PropertyGroup>
 
     <ItemGroup>

@@ -29,7 +29,7 @@ jobs:
     - name: Prepare WASM SDKs
       run: dotnet msbuild src/WitBindgen/build/BytecodeAlliance.Componentize.DotNet.WitBindgen.targets /t:PrepareWasmSdks
     - name: Build
-      run: dotnet build --no-restore /p:BuildNumber=${{ github.run_number }}
+      run: dotnet publish --no-restore /p:BuildNumber=${{ github.run_number }}
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Pack

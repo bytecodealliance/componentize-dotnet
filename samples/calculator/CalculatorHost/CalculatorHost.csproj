@@ -12,6 +12,9 @@
         <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <IlcExportUnmanagedEntrypoints>true</IlcExportUnmanagedEntrypoints>
+        <WasmSingleFileBundle>true</WasmSingleFileBundle>
+        <WasmBuildNative>true</WasmBuildNative>
+        <SelfContained>true</SelfContained>
     </PropertyGroup>
 
     <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+    <Import Project="build\BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
     <PropertyGroup>
         <PackageId>BytecodeAlliance.Componentize.DotNet.Wasm.SDK</PackageId>
         <Authors>Bytecode Alliance Developers</Authors>
@@ -39,6 +39,12 @@
 
     <Target Name="BuildOrDownloadNativeTooling" BeforeTargets="Build" DependsOnTargets="BuildNativeTooling; DownloadNativeTooling;">
     </Target>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
+        <PackageReference Condition="$([MSBuild]::IsOSPlatform('Windows'))" Include="runtime.win-x64.Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
+        <PackageReference Condition="$([MSBuild]::IsOSPlatform('Linux'))" Include="runtime.linux-x64.Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
+    </ItemGroup>
 
     <Target Name="BuildNativeTooling" Condition="'$(BuildWasmToolsLocally)' == 'true'">
         <Exec Command="cargo build --release" WorkingDirectory="$(WasmToolsModuleRoot)" />

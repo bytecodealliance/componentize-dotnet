@@ -4,7 +4,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
@@ -18,6 +18,7 @@
 
     <ItemGroup>
         <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.24573.1"/>
 
         <!-- Just to ensure build order -->
         <ProjectReference Include="..\E2EProducer\E2EProducer.csproj" ReferenceOutputAssembly="false" />

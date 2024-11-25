@@ -16,7 +16,7 @@ jobs:
     name: Build on ${{ matrix.os }} with Dotnet ${{ matrix.dotnet }}
     strategy:
       matrix:
-        dotnet: [ '8.x', '9.0.100-rc.1.24452.12']
+        dotnet: [ '9.x']
         os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
@@ -42,5 +42,5 @@ jobs:
         name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
-      if: ${{ matrix.dotnet  == '8.x' && matrix.os == 'windows-latest' }} 
+      if: ${{ matrix.dotnet  == '9.x' && matrix.os == 'windows-latest' }} 
 

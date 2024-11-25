@@ -3,17 +3,17 @@
     <Import Project="..\..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <InvariantGlobalization>true</InvariantGlobalization>
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <TargetName>ociwit</TargetName>
     </PropertyGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" />
+      <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
     </ItemGroup>
 
     <ItemGroup>

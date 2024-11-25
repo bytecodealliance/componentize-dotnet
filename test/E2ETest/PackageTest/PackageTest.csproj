@@ -2,7 +2,7 @@
     <Import Project="..\..\WasmtimeCliFetcher\FetchWasmtime.targets" />
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
@@ -28,6 +28,7 @@
 
         <!-- To ensure we don't build this until we've built the underlying packages -->
         <ProjectReference Include="..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" ReferenceOutputAssembly="false" />
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
     </ItemGroup>
 
     <!-- The next targets (+ nuget.config in folder above) ensures we have the latest nuget packages for the e2e test since there is no great way to force a project to use a particular nuget pacakage -->

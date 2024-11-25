@@ -24,7 +24,7 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 ### 1. Set up SDKs
 
-If you don't already have it, install [.NET 8+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+If you don't already have it, install [.NET 9+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
 ### 2. Create a project and add BytecodeAlliance.Componentize.DotNet.Wasm.SDK package
 
@@ -43,21 +43,21 @@ Create a `nuget.config` file and add the `dotnet-experimental` package source fo
 
 Add the `componentize-dotnet` package:
 
-* `dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
+`dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
 
-### 3. Configure the compilation output
+Add the platform specific LLVM package:
 
-Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
+```
+## On Linux
+dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --version 10.0.0-alpha.1.24573.1 --prerelease
 
-```xml
-    <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
-    <UseAppHost>false</UseAppHost>
-    <PublishTrimmed>true</PublishTrimmed>
-    <InvariantGlobalization>true</InvariantGlobalization>
-    <SelfContained>true</SelfContained>
+## or
+
+## On Windows
+dotnet add package runtime.windows-x64.microsoft.dotnet.ilcompiler.llvm --version 10.0.0-alpha.1.24573.1 --prerelease
 ```
 
-Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
+Now you can `dotnet publish` to produce a `.wasm` file using NativeAOT compilation.
 
 ### 4. Run the WebAssembly binary
 

@@ -1,8 +1,13 @@
 <Project>
 	<PropertyGroup>
-		<PublishTrimmed>true</PublishTrimmed>
-		<UseAppHost>false</UseAppHost>
 		<MSBuildEnableWorkloadResolver>false</MSBuildEnableWorkloadResolver>
+
+		<!-- Set these by default -->
+		<RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+		<UseAppHost>false</UseAppHost>
+		<PublishTrimmed>true</PublishTrimmed>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<SelfContained>true</SelfContained>
 
 		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Windows'))">win</WasmToolsTarget>
 		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</WasmToolsTarget>
@@ -14,6 +19,5 @@
 
 	<ItemGroup>
         <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
     </ItemGroup>
 </Project>

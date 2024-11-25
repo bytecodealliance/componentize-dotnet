@@ -3,10 +3,13 @@
     <Import Project="..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <!-- clear the defaulted values from sdk-->
         <SelfContained>false</SelfContained>
+        <PublishTrimmed>false</PublishTrimmed>
+        <RuntimeIdentifier></RuntimeIdentifier>
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
@@ -30,6 +33,7 @@
         <ProjectReference Include="..\testapps\SimpleConsumer\SimpleConsumer.csproj" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\testapps\AppWithWitFolder\AppWithWitFolder.csproj" ReferenceOutputAssembly="false"/>
         <ProjectReference Include="..\testapps\OciWit\OciWit.csproj" ReferenceOutputAssembly="false"/>
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
     </ItemGroup>
 
 </Project>

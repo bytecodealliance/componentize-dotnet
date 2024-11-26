@@ -49,7 +49,7 @@ public class SimpleProducerConsumerTest
     [Fact]
     public void CanBuildAppFromOci()
     {
-        var composed = FindModulePath("../testapps/OciWit", "ociwit.wasm");
+        var composed = FindModulePath($"../testapps/OciWit/bin/{Config}", "ociwit.wasm");
         var stdout = ExecuteCommandComponent(composed);
         Assert.StartsWith("Oci is awesome!", stdout);
     }
@@ -89,11 +89,18 @@ public class SimpleProducerConsumerTest
         }
 
         var matches = Directory.GetFiles(resolvedSearchDir, filename, SearchOption.AllDirectories);
-        if (matches.Count() != 1)
+        if (matches.Count() == 1)
         {
+            return Path.GetFullPath(matches.Single());
+        } 
+        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native"))) {
+           return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native")));
+        }
+        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm/native"))) {
+           return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm/native")));
+        }
+        else {
             throw new Exception($"Failed to get modules path, matched {matches.Count()} entries for directory {resolvedSearchDir} and filename {filename}.");
         }
-
-        return Path.GetFullPath(matches.Single());
     }
 }

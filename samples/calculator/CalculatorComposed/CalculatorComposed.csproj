@@ -16,7 +16,7 @@
       <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
     </ItemGroup>
 
-    <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
+    <Target Name="ComposeWasmComponent" AfterTargets="Publish">
         <PropertyGroup>
             <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/CalculatorHost.wasm</EntrypointComponent>
             <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder.wasm</DependencyComponent>

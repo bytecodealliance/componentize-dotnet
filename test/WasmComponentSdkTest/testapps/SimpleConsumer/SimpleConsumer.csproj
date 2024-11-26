@@ -27,7 +27,7 @@
     </ItemGroup>
     
     <!-- After build, create the composed component so it can be executed in the test -->
-    <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
+    <Target Name="ComposeWasmComponent" AfterTargets="Publish">
         <PropertyGroup>
             <DependencyComponent>../SimpleProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/simpleproducer.wasm</DependencyComponent>
         </PropertyGroup>

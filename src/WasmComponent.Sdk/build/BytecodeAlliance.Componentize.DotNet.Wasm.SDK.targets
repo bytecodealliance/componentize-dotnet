@@ -1,6 +1,6 @@
 <Project>
-    <Target Name="EmitWasmOnBuild" AfterTargets="CopyFilesToOutputDirectory" DependsOnTargets="LinkNativeLlvm;"
-            Condition="'$(RuntimeIdentifier)' == 'wasi-wasm'">
-        <Message Importance="high" Text="Emit on build $(ProjectName) " />
-    </Target>
+    <!-- 
+        This links the publish step with the build so that when a user runs `dotnet build` they get a wasm file.
+     -->
+    <Target Name="PublishAfterBuild" AfterTargets="Build" DependsOnTargets="Publish" Condition="'$(RuntimeIdentifier)' == 'wasi-wasm'" />
 </Project>

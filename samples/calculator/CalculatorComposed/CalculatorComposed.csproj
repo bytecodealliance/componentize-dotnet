@@ -23,7 +23,7 @@
         </PropertyGroup>
         
         <MakeDir Directories="dist" />
-        <Exec Command="$(WasmToolsExe) compose -o dist/calculator.wasm $(EntrypointComponent) -d $(DependencyComponent)" />
+        <Exec Command="$(WacExe) plug $(EntrypointComponent) --plug $(DependencyComponent) -o dist/calculator.wasm" />
     </Target>
 
 </Project>

@@ -9,12 +9,16 @@
 		<InvariantGlobalization>true</InvariantGlobalization>
 		<SelfContained>true</SelfContained>
 
-		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Windows'))">win</WasmToolsTarget>
-		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</WasmToolsTarget>
-		<WasmToolsTarget Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx</WasmToolsTarget>
-		<WasmToolsTarget>$(WasmToolsTarget)-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</WasmToolsTarget>
-		<WasmToolsExe>$(MSBuildThisFileDirectory)..\tools\$(WasmToolsTarget)\wasm-tools</WasmToolsExe>
+		<ToolsTarget Condition="$([MSBuild]::IsOSPlatform('Windows'))">win</ToolsTarget>
+		<ToolsTarget Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</ToolsTarget>
+		<ToolsTarget Condition="$([MSBuild]::IsOSPlatform('OSX'))">osx</ToolsTarget>
+		<ToolsTarget>$(ToolsTarget)-$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture.ToString().ToLower())</ToolsTarget>
+		
+		<WasmToolsExe>$(MSBuildThisFileDirectory)..\tools\$(ToolsTarget)\wasm-tools</WasmToolsExe>
 		<WasmToolsExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WasmToolsExe).exe</WasmToolsExe>
+		
+		<WacExe>$(MSBuildThisFileDirectory)..\tools\$(ToolsTarget)\wac</WacExe>
+		<WacExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WacExe).exe</WacExe>
 	</PropertyGroup>
 
 	<ItemGroup>

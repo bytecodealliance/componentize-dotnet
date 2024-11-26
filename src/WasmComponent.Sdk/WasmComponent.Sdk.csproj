@@ -19,11 +19,13 @@
         <!-- Things you might want to edit -->
         <!-- Set BuildWasmToolsLocally to true if you want to build modules/wasm-tools locally and use its output -->
         <BuildWasmToolsLocally>false</BuildWasmToolsLocally>
-        <PrebuiltWasmToolsVersion>1.219.1</PrebuiltWasmToolsVersion>
-        <PrebuiltWasmToolsBaseUrl>https://github.com/bytecodealliance/wasm-tools/releases/download/v$(PrebuiltWasmToolsVersion)/wasm-tools-$(PrebuiltWasmToolsVersion)</PrebuiltWasmToolsBaseUrl>
-        <WasmtimeVersionForWasiSnapshotPreview1Adapters>21.0.1</WasmtimeVersionForWasiSnapshotPreview1Adapters>
-
         <WasmToolsModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wasm-tools\</WasmToolsModuleRoot>
+
+        <WasmToolsVersion>1.220.0</WasmToolsVersion>
+        <PrebuiltWasmToolsBaseUrl>https://github.com/bytecodealliance/wasm-tools/releases/download/v$(WasmToolsVersion)/wasm-tools-$(WasmToolsVersion)</PrebuiltWasmToolsBaseUrl>
+
+        <WacVersion>v0.6.1</WacVersion>
+        <WacBaseUrl>https://github.com/bytecodealliance/wac/releases/download/$(WacVersion)/wac-cli</WacBaseUrl>
 
         <!-- Don't pack any assemblies in lib/*/.dll.-->
         <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -56,28 +58,48 @@
         <Copy SourceFiles="$(WasmToolsModuleRoot)target\release\$(WasmToolsExeName)" DestinationFolder="tools\$(WasmToolsTarget)\" />
     </Target>
 
-    <Target Name="DownloadNativeTooling" Condition="'$(BuildWasmToolsLocally)' != 'true'" DependsOnTargets="GetDownloadNativeToolingDependencies; DownloadNativeToolingCore">
+    <Target Name="DownloadNativeTooling" Condition="'$(BuildWasmToolsLocally)' != 'true'" DependsOnTargets="GetWasmToolsDependencies; DownloadWasmTools; GetWacDependencies; DownloadWac">
     </Target>
 
-    <Target Name="GetDownloadNativeToolingDependencies">
+    <Target Name="GetWasmToolsDependencies">
         <ItemGroup>
-            <PrebuiltWasmToolsTarget Include="aarch64-linux" Rid="linux-arm64" Ext=".tar.gz" />
-            <PrebuiltWasmToolsTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" />
-            <PrebuiltWasmToolsTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" />
-            <PrebuiltWasmToolsTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" />
+            <WasmToolsTarget Include="aarch64-linux" Rid="linux-arm64" Ext=".tar.gz" />
+            <WasmToolsTarget Include="aarch64-macos" Rid="osx-arm64" Ext=".tar.gz" />
+            <WasmToolsTarget Include="x86_64-linux" Rid="linux-x64" Ext=".tar.gz" />
+            <WasmToolsTarget Include="x86_64-macos" Rid="osx-x64" Ext=".tar.gz" />
             <!-- tar on non-Windows often cannot handle zip archives.  Until we have a solution, we canonly publish the packages from the Windows build. 
                  See https://github.com/bytecodealliance/componentize-dotnet/issues/41 -->
-            <PrebuiltWasmToolsTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+            <WasmToolsTarget Include="x86_64-windows" Rid="win-x64" Ext=".zip" ExeExt=".exe" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
         </ItemGroup>
         <ItemGroup>
-            <PrebuiltWasmToolsOutputs Include="tools\%(PrebuiltWasmToolsTarget.Rid)\wasm-tools%(PrebuiltWasmToolsTarget.ExeExt)" />
+            <PrebuiltWasmToolsOutputs Include="tools\%(WasmToolsTarget.Rid)\wasm-tools%(WasmToolsTarget.ExeExt)" />
         </ItemGroup>
     </Target>
 
-    <Target Name="DownloadNativeToolingCore" Inputs="@(PrebuiltWasmToolsOutputs)" Outputs="@(PrebuiltWasmToolsOutputs)">
-        <DownloadFile SourceUrl="$(PrebuiltWasmToolsBaseUrl)-%(PrebuiltWasmToolsTarget.Identity)%(PrebuiltWasmToolsTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(PrebuiltWasmToolsTarget.Rid)%(PrebuiltWasmToolsTarget.Ext)" />
-        <MakeDir Directories="tools\%(PrebuiltWasmToolsTarget.Rid)" />
-        <Exec Command="tar -xf &quot;temp/%(PrebuiltWasmToolsTarget.Rid)%(PrebuiltWasmToolsTarget.Ext)&quot; -C %(PrebuiltWasmToolsTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
+    <Target Name="GetWacDependencies">
+        <ItemGroup>
+            <WacTarget Include="aarch64-unknown-linux-musl" Rid="linux-arm64"/>
+            <WacTarget Include="aarch64-apple-darwin" Rid="osx-arm64"/>
+            <WacTarget Include="x86_64-unknown-linux-musl" Rid="linux-x64"/>
+            <WacTarget Include="x86_64-apple-darwin" Rid="osx-x64"/>
+            <WacTarget Include="x86_64-pc-windows-gnu" Rid="win-x64" ExeExt=".exe"/>
+        </ItemGroup>
+        <ItemGroup>
+            <WacOutputs Include="tools\%(WacTarget.Rid)\wac%(WacTarget.ExeExt)" />
+        </ItemGroup>
+    </Target>
+
+    <Target Name="DownloadWac" Inputs="@(WacOutputs)" Outputs="@(WacOutputs)">
+        <MakeDir Directories="tools\%(WacOutputs.Rid)" />
+        <DownloadFile SourceUrl="$(WacBaseUrl)-%(WacTarget.Identity)" DestinationFolder="tools\%(WacTarget.Rid)" DestinationFileName="wac%(WacTarget.ExeExt)" />
+        <!-- this makes CI pass but doesn't really make it work from Linux since package is build on Windows-->
+        <Exec Command="chmod +x tools/%(WacTarget.Rid)/wac" Condition="$([MSBuild]::IsOSPlatform('Linux')) And '%(WacTarget.ExeExt)' == ''"/>
+    </Target>
+
+    <Target Name="DownloadWasmTools" Inputs="@(PrebuiltWasmToolsOutputs)" Outputs="@(PrebuiltWasmToolsOutputs)">
+        <DownloadFile SourceUrl="$(PrebuiltWasmToolsBaseUrl)-%(WasmToolsTarget.Identity)%(WasmToolsTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(WasmToolsTarget.Rid)%(WasmToolsTarget.Ext)" />
+        <MakeDir Directories="tools\%(WasmToolsTarget.Rid)" />
+        <Exec Command="tar -xf &quot;temp/%(WasmToolsTarget.Rid)%(WasmToolsTarget.Ext)&quot; -C %(WasmToolsTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
         <RemoveDir Directories="tools\temp" />
     </Target>
 

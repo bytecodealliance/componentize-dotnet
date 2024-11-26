@@ -179,10 +179,10 @@ world root {
 
 ## Composing components
 
-Once you have a components containing the Adder and Calculator host, you can use [wasm-tools](https://github.com/bytecodealliance/wasm-tools) to compose a runnable application:
+Once you have a components containing the Adder and Calculator host, you can use [wac](https://github.com/bytecodealliance/wac) to compose a runnable application:
 
 ```bash
-wasm-tools compose -o composed.wasm MyApp.wasm -d AddImplementation.wasm
+wac plug MyApp.wasm --plug AddImplementation.wasm -o composed.wasm
 ```
 
 then run it:
@@ -191,7 +191,7 @@ then run it:
 wasmtime composed.wasm
 ```
 
-While you can run wasm-tools manually, you can also generate this automatically.  One way to do this is to [create a new project](./samples/calculator/CalculatorComposed/) and add the following:
+While you can run wac manually, you can also generate this automatically.  One way to do this is to [create a new project](./samples/calculator/CalculatorComposed/) and add the following:
 
 ```xml
  <Target Name="ComposeWasmComponent" AfterTargets="Publish">
@@ -201,7 +201,7 @@ While you can run wasm-tools manually, you can also generate this automatically.
         </PropertyGroup>
         
         <MakeDir Directories="dist" />
-        <Exec Command="$(WasmToolsExe) compose -o dist/calculator.wasm $(EntrypointComponent) -d $(DependencyComponent)" />
+        <Exec Command="$(WacExe) plug $(EntrypointComponent) --plug $(DependencyComponent)" -o dist/calculator.wasm />
     </Target>
 ```
 

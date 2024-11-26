@@ -194,7 +194,7 @@ wasmtime composed.wasm
 While you can run wasm-tools manually, you can also generate this automatically.  One way to do this is to [create a new project](./samples/calculator/CalculatorComposed/) and add the following:
 
 ```xml
- <Target Name="ComposeWasmComponent" AfterTargets="AfterBuild">
+ <Target Name="ComposeWasmComponent" AfterTargets="Publish">
         <PropertyGroup>
             <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/calculatorhost.wasm</EntrypointComponent>
             <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder.wasm</DependencyComponent>

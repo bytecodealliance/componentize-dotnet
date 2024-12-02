@@ -21,10 +21,7 @@
         <BuildWasmToolsLocally>false</BuildWasmToolsLocally>
         <WasmToolsModuleRoot>$(MSBuildThisFileDirectory)..\..\modules\wasm-tools\</WasmToolsModuleRoot>
 
-        <WasmToolsVersion>1.220.0</WasmToolsVersion>
         <PrebuiltWasmToolsBaseUrl>https://github.com/bytecodealliance/wasm-tools/releases/download/v$(WasmToolsVersion)/wasm-tools-$(WasmToolsVersion)</PrebuiltWasmToolsBaseUrl>
-
-        <WacVersion>v0.6.1</WacVersion>
         <WacBaseUrl>https://github.com/bytecodealliance/wac/releases/download/$(WacVersion)/wac-cli</WacBaseUrl>
 
         <!-- Don't pack any assemblies in lib/*/.dll.-->

@@ -1,14 +1,15 @@
 # Releasing the package
 
+1. Update all the tool versions in [Directory.Build.Props](./Directory.Build.props)
 1. Open a PR to update the `<VersionPrefix>` tag in [Directory.Build.Props](./Directory.Build.props)
-2. Maintainers approve and merge PR
-3. After the PR merges a maintainer triggers the Release workflow on the main branch via the github Actions UI or runs:
+1. Maintainers approve and merge PR
+1. After the PR merges a maintainer triggers the Release workflow on the main branch via the github Actions UI or runs:
 
 ```
 gh workflow run build -f test-run=false
 ```
 
-4. The release flow will build and publish the packages to nuget, tag the repository with version of the release, and create a GH release
+>The release flow will build and publish the packages to nuget, tag the repository with version of the release, and create a GH release
 5. Maintainer updates release notes with package info:
 
 ```

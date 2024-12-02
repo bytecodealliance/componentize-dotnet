@@ -7,5 +7,12 @@
         <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts\</PackageOutputPath>
         <IsPackable>false</IsPackable>
         <NoWarn>$(NoWarn);NU1507</NoWarn>
+
+        <!-- tool versions -->
+        <WasmToolsVersion>1.221.1</WasmToolsVersion>
+        <WacVersion>v0.6.1</WacVersion>
+        <PrebuiltWitBindgenVersion>0.36.0</PrebuiltWitBindgenVersion>
+        <PrebuildWkgVersion>0.8.5</PrebuildWkgVersion>
+
     </PropertyGroup>
 </Project>

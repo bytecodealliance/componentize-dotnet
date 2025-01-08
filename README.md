@@ -49,15 +49,25 @@ Add the platform specific LLVM package:
 
 ```
 ## On Linux
-dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --version 10.0.0-alpha.1.24573.1 --prerelease
+dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
 
 ## or
 
 ## On Windows
-dotnet add package runtime.windows-x64.microsoft.dotnet.ilcompiler.llvm --version 10.0.0-alpha.1.24573.1 --prerelease
+dotnet add package runtime.win-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
 ```
 
-Now you can `dotnet publish` to produce a `.wasm` file using NativeAOT compilation.
+Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
+
+```
+<RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+<UseAppHost>false</UseAppHost>
+<PublishTrimmed>true</PublishTrimmed>
+<InvariantGlobalization>true</InvariantGlobalization>
+<SelfContained>true</SelfContained>
+```
+
+Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
 
 ### 4. Run the WebAssembly binary
 

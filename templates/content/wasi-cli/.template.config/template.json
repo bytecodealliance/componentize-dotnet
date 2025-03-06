@@ -16,26 +16,9 @@
   },
   "symbols": {
     "platform": {
-      "type": "generated",
-      "generator": "switch",
-      "datatype": "string",
-      "parameters": {
-        "evaluator": "C++",
-        "datatype": "string",
-        "cases": [
-          {
-            "condition": "(OS == \"Windows_NT\")",
-            "value": "windows"
-          },
-          {
-            "condition": "(OS == \"Linux\")",
-            "value": "linux" 
-          },
-          {
-            "value": "linux" 
-          }
-        ]
-      }
+      "type": "bind",
+      "binding": "env:OS",
+      "defaultValue": "linux"
     }
   },
   "postActions": [

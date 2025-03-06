@@ -24,11 +24,14 @@
         "datatype": "string",
         "cases": [
           {
-            "condition": "(env:OS == \"Windows_NT\")",
+            "condition": "(OS == \"Windows_NT\")",
             "value": "windows"
           },
           {
-            "condition": "(env:OS != \"Windows_NT\")",
+            "condition": "(OS == \"Linux\")",
+            "value": "linux" 
+          },
+          {
             "value": "linux" 
           }
         ]

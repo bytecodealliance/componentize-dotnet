@@ -24,12 +24,12 @@
         "datatype": "string",
         "cases": [
           {
-            "condition": "(OS == \"Windows_NT\")",
+            "condition": "(env:OS == \"Windows_NT\")",
             "value": "windows"
           },
           {
-            "condition": "(OS == \"Linux\")",
-            "value": "lunux"
+            "condition": "(env:OS != \"Windows_NT\")",
+            "value": "linux" 
           }
         ]
       }
@@ -40,13 +40,9 @@
       "description": "Welcome to Componetize dotnet",
       "manualInstructions": [
         {
-          "text": "To get started run dotnet build.  Learn more at https://github.com/bytecodealliance/componentize-dotnet."
+          "text": "To get started run `dotnet build` inside your new project.  Learn more at https://github.com/bytecodealliance/componentize-dotnet."
         }
       ],
-      "args": {
-        "executable": "dotnet build",
-        "args": "<your project name>"
-      },
       "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
       "continueOnError": true
     }

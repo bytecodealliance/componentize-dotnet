@@ -36,7 +36,7 @@ jobs:
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
     - name: Test Template
       run: |
-        dotnet new install .\artifacts\BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg
+        dotnet new install ./artifacts/BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg
         dotnet new componentize.wasi.cli -o test
         cd test
         dotnet build

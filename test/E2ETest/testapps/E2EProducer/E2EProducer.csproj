@@ -16,7 +16,7 @@
 
     <ItemGroup>
         <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.24573.1"/>
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.25118.1"/>
     </ItemGroup>
 
     <ItemGroup>

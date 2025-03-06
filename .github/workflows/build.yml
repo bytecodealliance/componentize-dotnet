@@ -34,6 +34,12 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
+    - name: Test Template
+      run: |
+        dotnet new install .\artifacts\BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg
+        dotnet new componentize.wasi.cli -o test
+        cd test
+        dotnet build
     # must use windows to generate package https://github.com/bytecodealliance/componentize-dotnet/issues/41
     # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact
     - name: Upload artifacts

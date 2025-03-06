@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Bytecode Alliance Developers",
+  "classifications": [
+    "wasi",
+    "wasm",
+    "Console"
+  ],
+  "identity": "BytecodeAlliance.Componentize.DotNet.Templates.Console",
+  "name": "Componentize-dotnet wasi console template",
+  "shortName": "componentize.wasi.cli",
+  "sourceName": "wasi-cli",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "platform": {
+      "type": "generated",
+      "generator": "switch",
+      "datatype": "string",
+      "parameters": {
+        "evaluator": "C++",
+        "datatype": "string",
+        "cases": [
+          {
+            "condition": "(OS == \"Windows_NT\")",
+            "value": "windows"
+          },
+          {
+            "condition": "(OS == \"Linux\")",
+            "value": "lunux"
+          }
+        ]
+      }
+    }
+  },
+  "postActions": [
+    {
+      "description": "Welcome to Componetize dotnet",
+      "manualInstructions": [
+        {
+          "text": "To get started run dotnet build.  Learn more at https://github.com/bytecodealliance/componentize-dotnet."
+        }
+      ],
+      "args": {
+        "executable": "dotnet build",
+        "args": "<your project name>"
+      },
+      "actionId": "AC1156F7-BB77-4DB8-B28F-24EEBCCA1E5C",
+      "continueOnError": true
+    }
+  ]
+}

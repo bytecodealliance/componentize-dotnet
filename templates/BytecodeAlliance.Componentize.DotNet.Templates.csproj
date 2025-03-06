@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>BytecodeAlliance.Componentize.DotNet.Templates</PackageId>
+    <Title>Templates for Componentize-dotnet</Title>
+    <Authors>Bytecode Alliance Developers</Authors>
+    <Description>Provides templates for Templates for Componentize-dotnet</Description>
+    <PackageLicenseExpression>Apache-2.0 WITH LLVM-exception</PackageLicenseExpression>
+    <PackageTags>webassembly, .net, wasm</PackageTags>
+    <PackageProjectUrl>https://github.com/bytecodealliance/componentize-dotnet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bytecodealliance/componentize-dotnet</RepositoryUrl>
+    <IsPackable>true</IsPackable>
+    <PackageReleaseNotes>https://github.com/bytecodealliance/componentize-dotnet/releases/tag/$(PackageVersion)</PackageReleaseNotes>
+
+
+
+    <!-- Keep package type as 'Template' to show the package as a template package on nuget.org and make your template available in dotnet new search.-->
+    <PackageType>Template</PackageType>
+    <TargetFramework>net9.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LocalizeTemplates>false</LocalizeTemplates>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="content\**\*" Exclude="content\**\bin\**;content\**\obj\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>

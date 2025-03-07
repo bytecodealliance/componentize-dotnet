@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <!-- Only needed when referencing the dependencies as projects. For package references, these are imported automatically. -->
+    <Import Project="..\..\..\..\src\WitBindgen\ImportInDev.proj" />
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <WitBindgenAddtionalArgs>--with-wit-results</WitBindgenAddtionalArgs>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\src\WitBindgen\WitBindgen.csproj" />
+      <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Wit Update="result.wit" />
+    </ItemGroup>
+
+</Project>

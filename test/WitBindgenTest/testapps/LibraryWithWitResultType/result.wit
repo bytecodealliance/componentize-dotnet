@@ -1,0 +1,5 @@
+package test:results;
+
+world my-wit-results {
+  export string-error: func(a: f32) -> result<f32, string>;
+}

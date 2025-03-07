@@ -2,6 +2,6 @@ bin/
 obj/
 .vs/
 artifacts/
-test/WasmComponentSdkTest/testapps/OciWit/wit
+test/WasmComponentSdkTest/testapps/OciWit/wit/*.wasm
 *.binlog
 .DS_Store

@@ -1,7 +1,5 @@
 <Project>
     <PropertyGroup>
-        <WasmtimeVersion>21.0.1</WasmtimeVersion>
-
         <WasmtimeTarget Condition="$([MSBuild]::IsOSPlatform('Windows'))">mingw</WasmtimeTarget>
         <WasmtimeTarget Condition="$([MSBuild]::IsOSPlatform('Linux'))">linux</WasmtimeTarget>
         <WasmtimeTarget Condition="$([MSBuild]::IsOSPlatform('OSX'))">macos</WasmtimeTarget>

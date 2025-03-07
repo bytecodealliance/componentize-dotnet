@@ -18,7 +18,8 @@
 
     <ItemGroup>
       <Wit Remove="**\*.wit" />
-      <Wit Include="wit/wit.wasm" World="command" Registry="ghcr.io/webassembly/wasi/cli:0.2.0" />
+      <Wit Include="wit"/>
+      <Wit Include="wit/cli.wasm" World="command" Registry="ghcr.io/webassembly/wasi/cli:0.2.0" />
     </ItemGroup>
 
 </Project>

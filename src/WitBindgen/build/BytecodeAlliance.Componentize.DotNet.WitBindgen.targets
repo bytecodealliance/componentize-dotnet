@@ -57,7 +57,7 @@
         </PropertyGroup>
         <Message Condition="'%(Wit.Registry)' != ''" Importance="high" Text="Pulling OCI %(Wit.Registry) to %(Wit.RelativeDir)..."  />
         <MakeDir Condition="'%(Wit.Registry)' != '' AND !Exists('%(Wit.RelativeDir)')" Directories="%(Wit.RelativeDir)" />
-        <Exec Condition="'%(Wit.Registry)' != ''" Command="$(WkgExe) oci pull %(Wit.Registry) --output $(WitOciFile)" /> 
+        <Exec Condition="'%(Wit.Registry)' != ''" Command="$(WkgExe) oci pull %(Wit.Registry) --output %(Wit.Identity)" /> 
     </Target>
 
     <Target Name="WitCompile_GetDependencies" DependsOnTargets="WitCompile_InvokeTool">

@@ -14,5 +14,8 @@
         <PrebuiltWitBindgenVersion>0.40.0</PrebuiltWitBindgenVersion>
         <PrebuildWkgVersion>0.10.0</PrebuildWkgVersion>
 
+        <!-- test artifacts -->
+        <WasmtimeVersion>30.0.2</WasmtimeVersion>
+
     </PropertyGroup>
 </Project>

@@ -1,5 +1,7 @@
 using MyFuncsWorld;
 using ProducerWorld;
+using MyResultsWorld;
+using MyWitResultsWorld;
 using System;
 using Xunit;
 
@@ -32,5 +34,17 @@ public class CodeGenerationTest
     public void CanSpecifyWorld()
     {
         Assert.NotNull((Func<int>)SomeStuffImpl.GetNumber);
+    }
+
+    [Fact]
+    public void ShouldBeNormalResult()
+    {
+        Assert.NotNull((Func<float, float>)MyResultsWorldImpl.StringError);
+    }
+
+    [Fact]
+    public void ShouldBeNormalWitResult()
+    {
+        Assert.NotNull((Func<float, MyWitResultsWorld.Result<float, string>>)MyWitResultsWorldImpl.StringError);
     }
 }

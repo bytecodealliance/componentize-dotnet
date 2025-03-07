@@ -232,7 +232,26 @@ By default the project will find all wit files and execute wit-bindgen against e
 </ItemGroup>
 ```
 
+### Passing additional wit-bindgen args
+
+[wit-bindgen](https://github.com/bytecodealliance/wit-bindgen/tree/main) for c# has some advanced settings that can be set by using `WitBindgenAddtionalArgs` property. A non-exhustive list of example args that might be useful are:
+
+- `--features <featurename>` - turn on [wit features](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md#feature-gates)
+- `--with-wit-results` - use [wit Result types](https://github.com/WebAssembly/component-model/blob/main/design/mvp/WIT.md#wit-types) instead of generating exceptions
+- `--skip-support-files` - don't output files like `WasmImportLinkageAttribute`
+
+Example: 
+
+```xml
+<PropertyGroup>
+  <WitBindgenAddtionalArgs>--with-wit-results --features tls</WitBindgenAddtionalArgs>
+</PropertyGroup>
+```
+
+To learn about addtional args run  `wit-bindgen c-sharp -h`
+
 ### Referencing Wit Packages from OCI Registries
+
 Wit can be packaged into [OCI Artifacts](https://tag-runtime.cncf.io/wgs/wasm/deliverables/wasm-oci-artifact/) which can be pushed to OCI registries.  To import a WIT definition from an OCI registry specify the Registry on the `Wit` Element.  This will pull a WASM component binary that contains the WIT definition. wit-bindgen can use the binary format directly to generate the bindings. To view the WIT directly use [`wasm-tools component wit wit/wit.wasm`](https://github.com/bytecodealliance/wasm-tools).  
 
 ```xml

@@ -41,7 +41,10 @@ public class SimpleProducerConsumerTest
     public void CanComposeImportWithExport()
     {
         var composed = FindModulePath("../testapps/SimpleConsumer", "composed.wasm");
-        var stdout = ExecuteCommandComponent(composed);
+        var (stdout, stderr, code) = ExecuteCommandComponent(composed);
+         if (code != 0) {
+            Assert.Fail(stderr);
+        }
         Assert.StartsWith("Hello, world on Wasm", stdout);
         Assert.Contains("123 + 456 = 579", stdout);
     }
@@ -50,15 +53,28 @@ public class SimpleProducerConsumerTest
     public void CanBuildAppFromOci()
     {
         var composed = FindModulePath($"../testapps/OciWit/bin/{Config}", "ociwit.wasm");
-        var stdout = ExecuteCommandComponent(composed);
+        var (stdout, stderr, code) = ExecuteCommandComponent(composed, "-S http");
+        if (code != 0) {
+            Assert.Fail(stderr);
+        }
         Assert.StartsWith("Oci is awesome!", stdout);
     }
 
-    private static string ExecuteCommandComponent(string componentFilePath)
+    private static (string, string, int) ExecuteCommandComponent(string componentFilePath)
     {
-        var startInfo = new ProcessStartInfo(WasmtimeExePath, $"-W component-model {componentFilePath}") { RedirectStandardOutput = true };
-        var stdout = Process.Start(startInfo)!.StandardOutput.ReadToEnd();
-        return stdout;
+        return ExecuteCommandComponent(componentFilePath, string.Empty);
+    }
+
+    private static (string, string, int) ExecuteCommandComponent(string componentFilePath, string wasmtime_args)
+    {
+        var startInfo = new ProcessStartInfo(WasmtimeExePath, $" {wasmtime_args} {componentFilePath}") { RedirectStandardOutput = true, RedirectStandardError = true };
+        var process = Process.Start(startInfo) ?? throw new InvalidOperationException("Failed to start process.");
+        process.WaitForExit();
+        int code = process.ExitCode;
+        var stdout = process.StandardOutput.ReadToEnd();
+        var stderr = process.StandardError.ReadToEnd();
+
+        return (stdout, stderr, code);
     }
 
     private static string GetWitInfo(string componentFilePath)
@@ -92,14 +108,17 @@ public class SimpleProducerConsumerTest
         if (matches.Count() == 1)
         {
             return Path.GetFullPath(matches.Single());
-        } 
-        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native"))) {
-           return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native")));
         }
-        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm/native"))) {
-           return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm/native")));
+        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native")))
+        {
+            return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm\\native")));
         }
-        else {
+        else if (matches.Count() == 2 && matches.Any(x => Path.GetFullPath(x).Contains($"wasi-wasm/native")))
+        {
+            return Path.GetFullPath(matches.First(x => Path.GetFullPath(x).Contains($"wasi-wasm/native")));
+        }
+        else
+        {
             throw new Exception($"Failed to get modules path, matched {matches.Count()} entries for directory {resolvedSearchDir} and filename {filename}.");
         }
     }

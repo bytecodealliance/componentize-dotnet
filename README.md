@@ -26,58 +26,24 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 If you don't already have it, install [.NET 9+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
-### 2. Create a project and add BytecodeAlliance.Componentize.DotNet.Wasm.SDK package
+### 2. Install template and build
 
-* `dotnet new console -o MyApp`
-* `cd MyApp`
-
-Create a `nuget.config` file and add the `dotnet-experimental` package source for the `NativeAOT-LLVM` dependency:
-
-* `dotnet new nugetconfig`
-* Add these keys to `nuget.config` after `<clear />`:
-
-```xml
-    <add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />
-    <add key="nuget" value="https://api.nuget.org/v3/index.json" />
+```bash
+dotnet new install BytecodeAlliance.Componentize.DotNet.Templates
+dotnet new componentize.wasi.cli -o MyApp
+dotnet build MyApp
 ```
 
-Add the `componentize-dotnet` package:
-
-`dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
-
-Add the platform specific LLVM package:
-
-```
-## On Linux
-dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
-
-## or
-
-## On Windows
-dotnet add package runtime.win-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
-```
-
-Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
-
-```
-<RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
-<UseAppHost>false</UseAppHost>
-<PublishTrimmed>true</PublishTrimmed>
-<InvariantGlobalization>true</InvariantGlobalization>
-<SelfContained>true</SelfContained>
-```
-
-Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
-
-### 4. Run the WebAssembly binary
+### 3. Run the WebAssembly binary
 
 If you have a recent version of [wasmtime](https://github.com/bytecodealliance/wasmtime/releases) on your path, you can now run
 
 ```bash
-wasmtime bin\Debug\net8.0\wasi-wasm\native\MyApp.wasm
+wasmtime  ./MyApp/bin/Debug/net9.0/wasi-wasm/publish/MyApp.wasm
+Hello world from compontize-dotnet!
 ```
 
-(if needed, replace `MyApp.wasm` with the actual name of your project)
+(if needed, replace `MyApp` with the actual name of your project)
 
 ## Creating a WASI 0.2 component, including WIT support
 Lastest version of NativeAOT compiler package and the mono support in dotnet 9-preview 7 build native wasi 0.2 components with no additional tools.
@@ -284,6 +250,49 @@ The calculator example above works easily because it doesn't need to allocate me
 (You don't need to add this to your class library/exporting `.csproj`.)
 
 If you get a build error along the lines of _failed to encode a component from module ... module does not export a function named `cabi_realloc`_ then check you have remembered to add this line.
+
+### Create a project manually
+
+* `dotnet new console -o MyApp`
+* `cd MyApp`
+
+Create a `nuget.config` file and add the `dotnet-experimental` package source for the `NativeAOT-LLVM` dependency:
+
+* `dotnet new nugetconfig`
+* Add these keys to `nuget.config` after `<clear />`:
+
+```xml
+    <add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />
+    <add key="nuget" value="https://api.nuget.org/v3/index.json" />
+```
+
+Add the `componentize-dotnet` package:
+
+`dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
+
+Add the platform specific LLVM package:
+
+```
+## On Linux
+dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
+
+## or
+
+## On Windows
+dotnet add package runtime.win-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
+```
+
+Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
+
+```
+<RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+<UseAppHost>false</UseAppHost>
+<PublishTrimmed>true</PublishTrimmed>
+<InvariantGlobalization>true</InvariantGlobalization>
+<SelfContained>true</SelfContained>
+```
+
+Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
 
 ### Troubleshooting
 

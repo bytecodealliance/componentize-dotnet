@@ -22,6 +22,7 @@
     <ProjectReference Include="..\testapps\LibraryUsingWit\LibraryUsingWit.csproj" />
     <ProjectReference Include="..\testapps\LibraryWithExceptions\LibraryWitExceptions.csproj" />
     <ProjectReference Include="..\testapps\LibraryWithWitResultType\LibraryWithWitResultType.csproj" />
+    <ProjectReference Include="..\testapps\LibraryWithCustomGeneratedFilesLocation\LibraryWithCustomGeneratedFilesLocation.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,5 @@
+package test:simple;
+
+world my-simple {
+  export get-number: func() -> s32;
+}

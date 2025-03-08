@@ -1,8 +1,3 @@
-using MyFuncsWorld;
-using ProducerWorld;
-using MyResultsWorld;
-using MyWitResultsWorld;
-using System;
 using Xunit;
 
 namespace WitBindgenTest;
@@ -46,5 +41,11 @@ public class CodeGenerationTest
     public void ShouldBeNormalWitResult()
     {
         Assert.NotNull((Func<float, MyWitResultsWorld.Result<float, string>>)MyWitResultsWorldImpl.StringError);
+    }
+
+    [Fact]
+    public void CanChangeWitouputLocation()
+    {
+         Assert.NotNull((Func<int>)MySimpleWorldImpl.GetNumber);
     }
 }

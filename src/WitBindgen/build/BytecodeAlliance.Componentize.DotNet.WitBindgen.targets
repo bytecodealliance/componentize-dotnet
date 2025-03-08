@@ -48,7 +48,7 @@
 			Condition="'$(Language)' == 'C#' AND '@(Wit)' != ''"
             DependsOnTargets="PrepareWasmSdks; WitCompile_GetDependencies; WitCompile_InvokeTool">
         <ItemGroup>
-            <Compile Include="$(WitGeneratedFilesRoot)**\*.cs" />
+            <Compile Include="$(WitGeneratedFilesRoot)**\*.cs" KeepDuplicates="false" /> 
         </ItemGroup>
     </Target>
 
@@ -75,6 +75,7 @@
     <Target Name="WitCompile_InvokeTool" Inputs="@(Wit);$(MSBuildProjectFile)" Outputs="@(WitGeneratedCsFiles);$(WitGeneratedFilesRoot)lastbuild.txt">
         <PropertyGroup>
             <WitGeneratedFilesRoot Condition="'$(WitGeneratedFilesRoot)' == ''">$(IntermediateOutputPath)wit_bindgen\</WitGeneratedFilesRoot>
+            <WitGeneratedFilesRoot Condition="'$(WitGeneratedFilesRoot)' != '' AND !$(WitGeneratedFilesRoot.EndsWith('\'))">$(WitGeneratedFilesRoot)\</WitGeneratedFilesRoot>
         </PropertyGroup>
         <ItemGroup>
             <WitGeneratedCsFiles Remove="@(WitGeneratedCsFiles)" />

@@ -232,6 +232,18 @@ By default the project will find all wit files and execute wit-bindgen against e
 </ItemGroup>
 ```
 
+### Configuring location of generaged wit files
+
+By default the wit files are generated under the itermediate path `$(IntermediateOutputPath)wit_bindgen` which is by default at a location like `\obj\Debug\net9.0\wit_bindgen`.  This means you can't really see the files and they will be ignored and not checked in to source by default (assuming you have a standard .net `.gitignore`) but intillisense will work. 
+
+If you would like to have the files in a more discoverable place and potentially check the source files in you can configure the output location with a folder name and location of your choice, for example the following will create a folder `genererated/wit/` at the root of your project and put all the files in there.
+
+```xml
+<PropertyGroup>
+    <WitGeneratedFilesRoot>generated/wit</WitGeneratedFilesRoot>
+</PropertyGroup>
+```
+
 ### Passing additional wit-bindgen args
 
 [wit-bindgen](https://github.com/bytecodealliance/wit-bindgen/tree/main) for c# has some advanced settings that can be set by using `WitBindgenAddtionalArgs` property. A non-exhustive list of example args that might be useful are:

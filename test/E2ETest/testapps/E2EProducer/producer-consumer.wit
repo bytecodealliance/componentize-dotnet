@@ -1,7 +1,9 @@
 package test:producer-consumer;
 
 interface operations {
-	add: func(left: s32, right: s32) -> s32;
+  add: func(left: s32, right: s32) -> s32;
+  @unstable(feature = float-add)
+  add-float: func(a: f32, b: f32) -> f32;
 }
 
 world producer {

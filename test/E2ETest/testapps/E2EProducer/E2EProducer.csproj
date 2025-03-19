@@ -12,6 +12,7 @@
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <TargetName>e2eproducer</TargetName>
+        <WitBindgenAddtionalArgs>--features float-add</WitBindgenAddtionalArgs>
     </PropertyGroup>
 
     <ItemGroup>

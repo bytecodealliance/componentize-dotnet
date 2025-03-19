@@ -1,7 +1,6 @@
 ﻿<Project>
     <PropertyGroup>
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
-        <WitBindgenAddtionalArgs></WitBindgenAddtionalArgs>
 
         <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
         <WasiSdkVersion>24.0</WasiSdkVersion>

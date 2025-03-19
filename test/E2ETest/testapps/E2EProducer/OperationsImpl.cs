@@ -6,4 +6,9 @@ public class OperationsImpl : IOperations
     {
         return left + right;
     }
+
+    public static float AddFloat(float left, float right)
+    {
+        return left + right;
+    }
 }

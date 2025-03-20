@@ -34,7 +34,14 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
+    - name: Ensure package versions match
+      run: |
+        ls ./artifacts/*.nupkg
+        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+")
+        echo "Version: $version"
+        
     - name: Test Template
+      shell: bash
       run: |
         artifact_dir=${{ github.workspace }}/artifacts
         dotnet new install ./artifacts/BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg

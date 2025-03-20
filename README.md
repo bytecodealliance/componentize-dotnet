@@ -177,7 +177,7 @@ While you can run wac manually, you can also generate this automatically.  One w
         </PropertyGroup>
         
         <MakeDir Directories="dist" />
-        <Exec Command="$(WacExe) plug $(EntrypointComponent) --plug $(DependencyComponent)" -o dist/calculator.wasm />
+        <Exec Command="$(WacExe) plug $(EntrypointComponent) --plug $(DependencyComponent) -o dist/calculator.wasm" />
     </Target>
 ```
 

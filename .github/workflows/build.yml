@@ -38,8 +38,8 @@ jobs:
       shell: bash
       run: |
         ls ./artifacts/*.nupkg
-        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+" | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
-        template_version=$(grep -oPm1 "(?<=Version=\")[^\"]+" ./templates/content/wasi-cli/wasi-cli.csproj | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oE "<version>[^<]+" | sed 's/<version>//' | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        template_version=$(grep -oE "Version=\"[^\"]+" ./templates/content/wasi-cli/wasi-cli.csproj | sed 's/Version="//' | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
         echo "Package Version: $version | Template version: $template_version"
         if [ "$version" != "$template_version" ]; then 
           echo "Version mismatch: Package version ($version) does not match template version ($template_version)";
@@ -66,5 +66,5 @@ jobs:
         name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
-      if: ${{ matrix.dotnet  == '10.x' && matrix.os == 'windows-latest' }} 
+      if: ${{ matrix.dotnet  == '10.x' && matrix.os == 'windows-latest' }}
 

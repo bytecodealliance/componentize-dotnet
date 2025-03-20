@@ -198,7 +198,7 @@ By default the project will find all wit files and execute wit-bindgen against e
 </ItemGroup>
 ```
 
-### Configuring location of generaged wit files
+### Configuring location of generated wit files
 
 By default the wit files are generated under the itermediate path `$(IntermediateOutputPath)wit_bindgen` which is by default at a location like `\obj\Debug\net10.0\wit_bindgen`.  This means you can't really see the files and they will be ignored and not checked in to source by default (assuming you have a standard .net `.gitignore`) but intillisense will work. 
 

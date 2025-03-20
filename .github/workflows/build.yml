@@ -34,14 +34,29 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
-    - name: Test Template
+    - name: Ensure package and template versions match
+      shell: bash
       run: |
+        ls ./artifacts/*.nupkg
+        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oE "<version>[^<]+" | sed 's/<version>//' | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        template_version=$(grep -oE "Version=\"[^\"]+" ./templates/content/wasi-cli/wasi-cli.csproj | sed 's/Version="//' | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        echo "Package Version: $version | Template version: $template_version"
+        if [ "$version" != "$template_version" ]; then 
+          echo "Version mismatch: Package version ($version) does not match template version ($template_version)";
+          exit 1; 
+        fi
+    - name: Test Template
+      shell: bash
+      run: |
+        artifact_dir=$GITHUB_WORKSPACE/artifacts
         dotnet new install ./artifacts/BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg
-        mkdir ${{ runner.temp }}/projects
-        pushd ${{ runner.temp }}/projects
+        mkdir $RUNNER_TEMP/projects
+        pushd $RUNNER_TEMP/projects
         dotnet new componentize.wasi.cli -o test
         cd test
+        dotnet nuget add source $artifact_dir
         dotnet build
+        dotnet list package
         popd
     # must use windows to generate package https://github.com/bytecodealliance/componentize-dotnet/issues/41
     # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact
@@ -51,5 +66,5 @@ jobs:
         name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
-      if: ${{ matrix.dotnet  == '10.x' && matrix.os == 'windows-latest' }} 
+      if: ${{ matrix.dotnet  == '10.x' && matrix.os == 'windows-latest' }}
 

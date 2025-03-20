@@ -51,5 +51,5 @@ jobs:
         name: nuget-packages
         path: artifacts/*.nupkg
         if-no-files-found: error
-      if: ${{ matrix.dotnet  == '9.x' && matrix.os == 'windows-latest' }} 
+      if: ${{ matrix.dotnet  == '10.x' && matrix.os == 'windows-latest' }} 
 

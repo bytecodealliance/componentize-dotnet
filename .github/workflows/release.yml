@@ -28,7 +28,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.x
+        dotnet-version: 10.x
     - name: Download artifacts
       uses: actions/download-artifact@v4
       with:

@@ -3,7 +3,7 @@
     <!-- This project can't be included in the solution because its package reference can't be satisfied except when running under test -->
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>   

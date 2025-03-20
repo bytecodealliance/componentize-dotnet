@@ -9,9 +9,9 @@
         <NoWarn>$(NoWarn);NU1507</NoWarn>
 
         <!-- tool versions -->
-        <WasmToolsVersion>1.227.0</WasmToolsVersion>
+        <WasmToolsVersion>1.227.1</WasmToolsVersion>
         <WacVersion>v0.6.1</WacVersion>
-        <PrebuiltWitBindgenVersion>0.40.0</PrebuiltWitBindgenVersion>
+        <PrebuiltWitBindgenVersion>0.41.0</PrebuiltWitBindgenVersion>
         <PrebuildWkgVersion>0.10.0</PrebuildWkgVersion>
 
         <!-- test artifacts -->

@@ -24,7 +24,7 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 ### 1. Set up SDKs
 
-If you don't already have it, install [.NET 9+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+If you don't already have it, install [.NET 10+ preview SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
 ### 2. Install template and build
 
@@ -39,7 +39,7 @@ dotnet build MyApp
 If you have a recent version of [wasmtime](https://github.com/bytecodealliance/wasmtime/releases) on your path, you can now run
 
 ```bash
-wasmtime  ./MyApp/bin/Debug/net9.0/wasi-wasm/publish/MyApp.wasm
+wasmtime  ./MyApp/bin/Debug/net10.0/wasi-wasm/publish/MyApp.wasm
 Hello world from compontize-dotnet!
 ```
 
@@ -200,7 +200,7 @@ By default the project will find all wit files and execute wit-bindgen against e
 
 ### Configuring location of generaged wit files
 
-By default the wit files are generated under the itermediate path `$(IntermediateOutputPath)wit_bindgen` which is by default at a location like `\obj\Debug\net9.0\wit_bindgen`.  This means you can't really see the files and they will be ignored and not checked in to source by default (assuming you have a standard .net `.gitignore`) but intillisense will work. 
+By default the wit files are generated under the itermediate path `$(IntermediateOutputPath)wit_bindgen` which is by default at a location like `\obj\Debug\net10.0\wit_bindgen`.  This means you can't really see the files and they will be ignored and not checked in to source by default (assuming you have a standard .net `.gitignore`) but intillisense will work. 
 
 If you would like to have the files in a more discoverable place and potentially check the source files in you can configure the output location with a folder name and location of your choice, for example the following will create a folder `genererated/wit/` at the root of your project and put all the files in there.
 

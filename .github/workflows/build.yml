@@ -36,12 +36,15 @@ jobs:
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
     - name: Test Template
       run: |
+        artifact_dir=${{ github.workspace }}/artifacts
         dotnet new install ./artifacts/BytecodeAlliance.Componentize.DotNet.Templates.*.nupkg
         mkdir ${{ runner.temp }}/projects
         pushd ${{ runner.temp }}/projects
         dotnet new componentize.wasi.cli -o test
         cd test
+        dotnet nuget add source $artifact_dir
         dotnet build
+        dotnet list package
         popd
     # must use windows to generate package https://github.com/bytecodealliance/componentize-dotnet/issues/41
     # only need one package published https://github.com/actions/upload-artifact?tab=readme-ov-file#not-uploading-to-the-same-artifact

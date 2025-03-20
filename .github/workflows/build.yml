@@ -34,12 +34,17 @@ jobs:
       run: dotnet test --no-build --verbosity normal
     - name: Pack
       run: dotnet pack -c Release /p:BuildNumber=${{ github.run_number }}
-    - name: Ensure package versions match
+    - name: Ensure package and template versions match
+      shell: bash
       run: |
         ls ./artifacts/*.nupkg
-        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+")
-        echo "Version: $version"
-        
+        version=$(unzip -p ./artifacts/*SDK*.nupkg '*.nuspec' | grep -oPm1 "(?<=<version>)[^<]+" | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        template_version=$(grep -oPm1 "(?<=Version=\")[^\"]+" ./templates/content/wasi-cli/wasi-cli.csproj | grep -oE "^[0-9]+\.[0-9]+\.[0-9]+-preview")
+        echo "Package Version: $version | Template version: $template_version"
+        if [ "$version" != "$template_version" ]; then 
+          echo "Version mismatch: Package version ($version) does not match template version ($template_version)";
+          exit 1; 
+        fi
     - name: Test Template
       shell: bash
       run: |

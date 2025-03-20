@@ -14,6 +14,7 @@
         <UseAppHost>false</UseAppHost>
         <PublishTrimmed>true</PublishTrimmed>
         <TargetName>e2econsumer</TargetName>
+        <WitBindgenAddtionalArgs>--features float-add</WitBindgenAddtionalArgs>
     </PropertyGroup>
 
     <ItemGroup>

@@ -33,6 +33,11 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Windows\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
+    </PropertyGroup>
+
     <ItemGroup>
         <None Include="../../Readme.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
@@ -74,7 +79,7 @@
         <MakeDir Directories="tools\%(PrebuiltToolTarget.Rid)" />
         <DownloadFile SourceUrl="$(PrebuiltWitBindgenBaseUrl)-%(PrebuiltToolTarget.Identity)%(PrebuiltToolTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(PrebuiltToolTarget.Rid)%(PrebuiltToolTarget.Ext)" />
         <WriteLinesToFile File="$(CurrentWitBindgenVersion)" Lines="$(PrebuiltWitBindgenVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
-        <Exec Command="tar -xf &quot;temp/%(PrebuiltToolTarget.Rid)%(PrebuiltToolTarget.Ext)&quot; -C %(PrebuiltToolTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
+        <Exec Command="$(TarPath) -xf &quot;temp/%(PrebuiltToolTarget.Rid)%(PrebuiltToolTarget.Ext)&quot; -C %(PrebuiltToolTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
         <RemoveDir Directories="tools\temp" />
 
         <DownloadFile SourceUrl="$(PrebuildWkgBaseUrl)-%(PrebuiltToolTarget.wkg)" DestinationFolder="tools\%(PrebuiltToolTarget.Rid)" DestinationFileName="wkg%(PrebuiltToolTarget.ExeExt)" />

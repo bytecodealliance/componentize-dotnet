@@ -11,6 +11,11 @@
 
     </PropertyGroup>
 
+    <PropertyGroup>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Windows\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
+    </PropertyGroup>
+
     <!--
         MSBuild stuff to acquire the necessary SDKs (WASI SDK) automatically. It will take a few mins on the
         first build on a given machine, but after that should no-op.
@@ -36,7 +41,7 @@
         <!-- Windows 10+ has tar built in, so this should work cross-platform -->
         <Message Importance="high" Text="Extracting @(WasiSdkDownloadTempFile) to $(WasiSdkRoot)..." />
         <MakeDir Directories="$(WasiSdkRoot)" />
-        <Exec Command="tar -xf &quot;@(WasiSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(WasiSdkRoot)" />
+        <Exec Command="$(TarPath) -xf &quot;@(WasiSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(WasiSdkRoot)" />
         <RemoveDir Directories="$(WasiSdkDownloadTempDir)" />
     </Target>
 

@@ -29,6 +29,11 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Windows\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
+    </PropertyGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\WitBindgen\WitBindgen.csproj" PrivateAssets="None" />
     </ItemGroup>
@@ -96,7 +101,7 @@
     <Target Name="DownloadWasmTools" Inputs="@(PrebuiltWasmToolsOutputs)" Outputs="@(PrebuiltWasmToolsOutputs)">
         <DownloadFile SourceUrl="$(PrebuiltWasmToolsBaseUrl)-%(WasmToolsTarget.Identity)%(WasmToolsTarget.Ext)" DestinationFolder="tools\temp" DestinationFileName="%(WasmToolsTarget.Rid)%(WasmToolsTarget.Ext)" />
         <MakeDir Directories="tools\%(WasmToolsTarget.Rid)" />
-        <Exec Command="tar -xf &quot;temp/%(WasmToolsTarget.Rid)%(WasmToolsTarget.Ext)&quot; -C %(WasmToolsTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
+        <Exec Command="$(TarPath) -xf &quot;temp/%(WasmToolsTarget.Rid)%(WasmToolsTarget.Ext)&quot; -C %(WasmToolsTarget.Rid) --strip-components=1" WorkingDirectory="tools" />
         <RemoveDir Directories="tools\temp" />
     </Target>
 

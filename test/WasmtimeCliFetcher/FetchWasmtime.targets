@@ -18,7 +18,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">C:\Windows\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">$(SystemRoot)\System32\tar.exe</TarPath>
         <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
     </PropertyGroup>
 

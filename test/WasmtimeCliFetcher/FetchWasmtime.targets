@@ -17,12 +17,16 @@
         <WasmtimeUrl>https://github.com/bytecodealliance/wasmtime/releases/download/v$(WasmtimeVersion)/wasmtime-v$(WasmtimeVersion)-$(WasmtimeTarget)$(WasmtimeUrlExtension)</WasmtimeUrl>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">$(SystemRoot)\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
+    </PropertyGroup>
 
     <Target Name="AcquireWasmtime" Condition="!Exists('$(CurrentWasmtimeVersion)')" BeforeTargets="CoreBuild">
         <RemoveDir Directories="$(MSBuildThisFileDirectory)tools" />
         <DownloadFile SourceUrl="$(WasmtimeUrl)" DestinationFolder="$(MSBuildThisFileDirectory)tools" DestinationFileName="temp$(WasmtimeUrlExtension)" />	        
         <WriteLinesToFile File="$(CurrentWasmtimeVersion)" Lines="$(WasmtimeVersion)" Overwrite="true" WriteOnlyWhenDifferent="true" />
-        <Exec Command="tar -xf temp$(WasmtimeUrlExtension) --strip-components=1" WorkingDirectory="$(MSBuildThisFileDirectory)tools" />	  
+        <Exec Command="$(TarPath) -xf temp$(WasmtimeUrlExtension) --strip-components=1" WorkingDirectory="$(MSBuildThisFileDirectory)tools" />	  
         <Delete Files="$(MSBuildThisFileDirectory)tools\temp$(WasmtimeUrlExtension)" />
     </Target>
 </Project>

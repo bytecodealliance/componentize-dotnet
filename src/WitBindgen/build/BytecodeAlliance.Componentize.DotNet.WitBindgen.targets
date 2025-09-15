@@ -4,12 +4,17 @@
 
         <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
         <!-- https://github.com/WebAssembly/wasi-sdk/releases -->
-        <WasiSdkVersion>27.0</WasiSdkVersion>
+        <WasiSdkVersion Condition="'$(WasiSdkVersion)' == ''">27.0</WasiSdkVersion>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-windows.tar.gz</WasiSdkUrl>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-linux.tar.gz</WasiSdkUrl>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-macos.tar.gz</WasiSdkUrl>
         <WasiSdkRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".wasi-sdk", "wasi-sdk-$(WasiSdkVersion)"))</WasiSdkRoot>
 
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <TarPath Condition="'$(TarPath)' == '' and $([MSBuild]::IsOSPlatform('Windows'))">$(SystemRoot)\System32\tar.exe</TarPath>
+        <TarPath Condition="'$(TarPath)' == ''">tar</TarPath>
     </PropertyGroup>
 
     <!--
@@ -37,7 +42,7 @@
         <!-- Windows 10+ has tar built in, so this should work cross-platform -->
         <Message Importance="high" Text="Extracting @(WasiSdkDownloadTempFile) to $(WasiSdkRoot)..." />
         <MakeDir Directories="$(WasiSdkRoot)" />
-        <Exec Command="tar -xf &quot;@(WasiSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(WasiSdkRoot)" />
+        <Exec Command="$(TarPath) -xf &quot;@(WasiSdkDownloadTempFile)&quot; -C . --strip-components=1" WorkingDirectory="$(WasiSdkRoot)" />
         <RemoveDir Directories="$(WasiSdkDownloadTempDir)" />
     </Target>
 

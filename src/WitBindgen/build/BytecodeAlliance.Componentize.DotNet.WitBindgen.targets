@@ -21,7 +21,7 @@
         MSBuild stuff to acquire the necessary SDKs (WASI SDK) automatically. It will take a few mins on the
         first build on a given machine, but after that should no-op.
     -->
-    <Target Name="PrepareWasmSdks" BeforeTargets="CheckWasmSdks" DependsOnTargets="ObtainWasiSdk">
+    <Target Name="PrepareWasmSdks" BeforeTargets="IlcCompile" DependsOnTargets="ObtainWasiSdk">
         <PropertyGroup>
             <WASI_SDK_PATH>$(WasiSdkRoot)</WASI_SDK_PATH>
         </PropertyGroup>

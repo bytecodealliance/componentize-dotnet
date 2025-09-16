@@ -16,7 +16,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\src\WasmComponent.Sdk\WasmComponent.Sdk.csproj" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
         
         <!-- Just to ensure build order -->
         <ProjectReference Include="..\SimpleProducer\SimpleProducer.csproj" ReferenceOutputAssembly="false" />

@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <!-- This project can't be included in the solution because its package reference can't be satisfied except when running under test -->
+    <!-- Only needed when referencing the dependencies as projects. For package references, these are imported automatically. -->
+    <Import Project="..\..\..\..\src\WasmComponent.Sdk\ImportInDev.proj" />
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -19,7 +20,6 @@
 
     <ItemGroup>
         <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.25118.1"/>
 
         <!-- Just to ensure build order -->
         <ProjectReference Include="..\E2EProducer\E2EProducer.csproj" ReferenceOutputAssembly="false" />

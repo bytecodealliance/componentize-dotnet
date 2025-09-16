@@ -19,9 +19,13 @@
 		
 		<WacExe>$(MSBuildThisFileDirectory)..\tools\$(ToolsTarget)\wac</WacExe>
 		<WacExe Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(WacExe).exe</WacExe>
+        
+		<!-- find latest versions at https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental by name of package -->
+        <NativeAotLlvmVersion Condition="'$(NativeAotLlvmVersion)' == ''">10.0.0-alpha.1.25162.1</NativeAotLlvmVersion>
 	</PropertyGroup>
 
-	<ItemGroup>
-        <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" PrivateAssets="None" />
+    <ItemGroup>
+        <PackageReference Include="Microsoft.DotNet.ILCompiler.LLVM" IsImplicitlyDefined="true" Version="$(NativeAotLlvmVersion)" />
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).microsoft.dotnet.ilcompiler.llvm" IsImplicitlyDefined="true" Version="$(NativeAotLlvmVersion)" />
     </ItemGroup>
 </Project>

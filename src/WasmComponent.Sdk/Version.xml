@@ -1,0 +1,7 @@
+<Project>
+
+    <PropertyGroup>
+        <WasmComponentSdkVersion>$version$</WasmComponentSdkVersion>
+    </PropertyGroup>
+
+</Project>

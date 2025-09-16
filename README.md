@@ -265,32 +265,22 @@ Create a `nuget.config` file and add the `dotnet-experimental` package source fo
     <add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />
     <add key="nuget" value="https://api.nuget.org/v3/index.json" />
 ```
+Edit the `.csproj` file:
 
-Add the `componentize-dotnet` package:
+1. Change the SDK to `BytecodeAlliance.Componentize.DotNet.Wasm.SDK/[VERSION]`, for example:
 
-`dotnet add package BytecodeAlliance.Componentize.DotNet.Wasm.SDK --prerelease`
+  ```xml
+  <Project Sdk="BytecodeAlliance.Componentize.DotNet.WitBindgen.0.7.0-preview00014">
+  ```
+2. Add the following inside the `<PropertyGroup>`:
 
-Add the platform specific LLVM package:
-
-```
-## On Linux
-dotnet add package runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
-
-## or
-
-## On Windows
-dotnet add package runtime.win-x64.microsoft.dotnet.ilcompiler.llvm --prerelease
-```
-
-Edit the `.csproj` file, adding the following inside the `<PropertyGroup>`:
-
-```
-<RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
-<UseAppHost>false</UseAppHost>
-<PublishTrimmed>true</PublishTrimmed>
-<InvariantGlobalization>true</InvariantGlobalization>
-<SelfContained>true</SelfContained>
-```
+  ```xml
+  <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
+  <UseAppHost>false</UseAppHost>
+  <PublishTrimmed>true</PublishTrimmed>
+  <InvariantGlobalization>true</InvariantGlobalization>
+  <SelfContained>true</SelfContained>
+  ```
 
 Now you can `dotnet build` to produce a `.wasm` file using NativeAOT compilation.
 

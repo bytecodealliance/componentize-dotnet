@@ -1,0 +1,4 @@
+<Project>
+    <Import Project="BytecodeAlliance.Componentize.DotNet.Wasm.SDK.targets" />
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

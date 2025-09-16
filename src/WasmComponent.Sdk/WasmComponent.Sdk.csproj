@@ -35,10 +35,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\WitBindgen\WitBindgen.csproj" PrivateAssets="None" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="../../Readme.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
@@ -106,8 +102,15 @@
     </Target>
 
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
+        <!-- 
+            Copy Version.xml to sdk\Version.props and replace $version$ with the current NuGet version
+            We need this to reference the current 'BytecodeAlliance.Componentize.DotNet.WitBindgen' in the SDK project
+         -->
+        <ReplaceFileText InputFilename="Version.xml" OutputFilename="sdk\Version.props" MatchExpression="\$version\$" ReplacementText="$(PackageVersion)" />
+
         <ItemGroup>
-            <_PackageFiles Include="build\**" BuildAction="Content" PackagePath="build" />
+            <_PackageFiles Include="sdk\**" BuildAction="Content" PackagePath="Sdk" />
+            <_PackageFiles Include="build\**" BuildAction="Content" PackagePath="Sdk" />
             <_PackageFiles Include="tools\**" BuildAction="Content" PackagePath="tools" />
         </ItemGroup>
     </Target>

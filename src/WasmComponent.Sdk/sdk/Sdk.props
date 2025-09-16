@@ -2,8 +2,4 @@
     <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
     <Import Project="Version.props" />
     <Import Project="BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
-
-    <ItemGroup>
-        <PackageReference Include="BytecodeAlliance.Componentize.DotNet.WitBindgen" IsImplicitlyDefined="true" Version="$(WasmComponentSdkVersion)" />
-    </ItemGroup>
 </Project>

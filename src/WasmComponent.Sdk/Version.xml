@@ -1,7 +1,5 @@
 <Project>
-
     <PropertyGroup>
-        <WasmComponentSdkVersion>$version$</WasmComponentSdkVersion>
+        <WitBindgenVersion Condition="'$(WitBindgenVersion)' == ''">$version$</WitBindgenVersion>
     </PropertyGroup>
-
 </Project>

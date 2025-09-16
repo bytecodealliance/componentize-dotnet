@@ -267,10 +267,10 @@ Create a `nuget.config` file and add the `dotnet-experimental` package source fo
 ```
 Edit the `.csproj` file:
 
-1. Change the SDK to `BytecodeAlliance.Componentize.DotNet.Wasm.SDK/[VERSION]`, for example:
+1. Add the following line under `<Project>`:
 
   ```xml
-  <Project Sdk="BytecodeAlliance.Componentize.DotNet.WitBindgen.0.7.0-preview00014">
+  <Project Sdk="BytecodeAlliance.Componentize.DotNet.WitBindgen" Version="[LatestVersion]" />
   ```
 2. Add the following inside the `<PropertyGroup>`:
 

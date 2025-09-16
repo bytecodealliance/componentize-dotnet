@@ -1,4 +1,6 @@
-<Project Sdk="BytecodeAlliance.Componentize.DotNet.Wasm.SDK/$version$">
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$version$" />
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>

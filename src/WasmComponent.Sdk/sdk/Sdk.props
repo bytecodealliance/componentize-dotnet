@@ -1,5 +1,4 @@
 <Project>
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
     <Import Project="Version.props" />
     <Import Project="BytecodeAlliance.Componentize.DotNet.Wasm.SDK.props" />
 </Project>

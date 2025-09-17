@@ -256,15 +256,6 @@ If you get a build error along the lines of _failed to encode a component from m
 * `dotnet new console -o MyApp`
 * `cd MyApp`
 
-Create a `nuget.config` file and add the `dotnet-experimental` package source for the `NativeAOT-LLVM` dependency:
-
-* `dotnet new nugetconfig`
-* Add these keys to `nuget.config` after `<clear />`:
-
-```xml
-    <add key="dotnet-experimental" value="https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet-experimental/nuget/v3/index.json" />
-    <add key="nuget" value="https://api.nuget.org/v3/index.json" />
-```
 Edit the `.csproj` file:
 
 1. Add the following line under `<Project>`:
@@ -276,7 +267,6 @@ Edit the `.csproj` file:
 
   ```xml
   <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
-  <UseAppHost>false</UseAppHost>
   <PublishTrimmed>true</PublishTrimmed>
   <InvariantGlobalization>true</InvariantGlobalization>
   <SelfContained>true</SelfContained>
@@ -303,6 +293,18 @@ Caused by:
 ```
 
 Some imports automatically imported since they are so common.  In this case you should tell the runtime to implement those imports. For instance for the error above, in wasmtime you might add `-S cli` to the `wasmtime serve` command like `wasmtime serve -S cli` to include the `wasi:cli/environment@0.2.0` in wasmtime runtime host implementation.
+
+## SDK configuration
+You can configure the SDK by setting properties in your project file. The following are supported:
+
+| Property Name | Description | Default |
+|---------------|-------------|---------|
+| `WasiSdkVersion` | Version of the WASI SDK to use.<br />Beware that not all versions of the WASI SDK are compatible with NativeAOT-LLVM. You'll see an warning if you pick an incompatible version from NativeAOT-LLVM.<br /><br />⚠️ When changing this value, or the NativeAOT-LLVM version, check the build output for any warnings! | `24.0` |
+| `NativeAotLlvmVersion` | Version of the NativeAOT-LLVM package to use.<br />Find latest versions in the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet/Microsoft.DotNet.ILCompiler.LLVM/versions). | `10.0.0-alpha.1.25162.1` |
+| `WitBindgenVersion` | Version of the `BytecodeAlliance.Componentize.DotNet.WitBindgen` package to use. | Current SDK version |
+| `RegisterExperimentalNuGetSource` | Whether to register the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet) to find the NativeAOT-LLVM package. Set this to `false` if you have a NuGet.config that already includes this feed. | `true` |
+| `WitBindgenAddtionalArgs` | Additional arguments to pass to `wit-bindgen` when generating C# bindings. Separate multiple args with spaces. | (empty) |
+| `WitGeneratedFilesRoot` | Folder to place generated WIT files. Relative to the project root. | (empty) |
 
 ## Credits
 

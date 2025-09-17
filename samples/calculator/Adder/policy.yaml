@@ -1,0 +1,6 @@
+version: "1.0"
+description: "Permission policy for calculator sample GitHub repo metadata fetch"
+permissions:
+  network:
+    allow:
+      - host: "api.github.com"

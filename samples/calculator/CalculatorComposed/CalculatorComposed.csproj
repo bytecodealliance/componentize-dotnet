@@ -19,7 +19,8 @@
     <Target Name="ComposeWasmComponent" AfterTargets="Publish">
         <PropertyGroup>
             <EntrypointComponent>../CalculatorHost/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/CalculatorHost.wasm</EntrypointComponent>
-            <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder.wasm</DependencyComponent>
+            <!-- Use adder2.wasm because TargetName=adder2 in Adder.csproj -->
+            <DependencyComponent>../Adder/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/adder2.wasm</DependencyComponent>
         </PropertyGroup>
         
         <MakeDir Directories="dist" />

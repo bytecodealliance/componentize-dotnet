@@ -12,7 +12,8 @@
         <RuntimeIdentifier>wasi-wasm</RuntimeIdentifier>
 
         <!-- Need kebab case -->
-        <TargetName>adder</TargetName>
+        <TargetName>adder2</TargetName>
+        <WitGeneratedFilesRoot>generated/wit</WitGeneratedFilesRoot>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Wit Update="calculator.wit" World="computer" />
+        <!-- <Wit Update="calculator.wit" World="computer" /> -->
+        <Wit Remove="**\*.wit"  />
+        <Wit Include="wit" World="computer" /> 
     </ItemGroup>
- 
+
+  <Target Name="CopyPolicyYamlToPublishDir" AfterTargets="Publish">
+    <PropertyGroup>
+      <PolicyYamlSource>$(ProjectDir)policy.yaml</PolicyYamlSource>
+      <PolicyYamlDest>$(PublishDir)$(TargetName).policy.yaml</PolicyYamlDest>
+    </PropertyGroup>
+    <Copy SourceFiles="$(PolicyYamlSource)" DestinationFiles="$(PolicyYamlDest)"
+      SkipUnchangedFiles="true" Condition="Exists('$(PolicyYamlSource)')" />
+  </Target>
+
 </Project>

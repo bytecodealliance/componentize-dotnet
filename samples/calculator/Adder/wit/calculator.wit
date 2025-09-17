@@ -1,0 +1,16 @@
+package example:calculator;
+
+interface operations {
+  add: func(left: s32, right: s32) -> s32;
+  to-upper: func(input: string) -> string;
+  get-repo: func(owner: string, name: string) -> string;
+}
+
+world computer {
+  import wasi:http/outgoing-handler@0.2.0;
+  export operations;
+}
+
+world hostapp {
+  import operations;
+}

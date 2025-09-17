@@ -18,7 +18,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Wit Include="..\Adder\calculator.wit" World="hostapp" />
+    <Wit Remove="..\Adder\calculator.wit" />
+    <Wit Include="..\Adder\wit" World="hostapp" />
     </ItemGroup>
 
 </Project>

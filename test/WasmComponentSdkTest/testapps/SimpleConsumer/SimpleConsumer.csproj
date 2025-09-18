@@ -29,7 +29,7 @@
     <!-- After build, create the composed component so it can be executed in the test -->
     <Target Name="ComposeWasmComponent" AfterTargets="Publish">
         <PropertyGroup>
-            <DependencyComponent>../SimpleProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/native/simpleproducer.wasm</DependencyComponent>
+            <DependencyComponent>../SimpleProducer/bin/$(Configuration)/$(TargetFramework)/wasi-wasm/publish/simpleproducer.wasm</DependencyComponent>
         </PropertyGroup>
 
         <MakeDir Directories="dist" />

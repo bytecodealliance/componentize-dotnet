@@ -261,7 +261,7 @@ Edit the `.csproj` file:
 1. Add the following line under `<Project>`:
 
   ```xml
-  <Project Sdk="BytecodeAlliance.Componentize.DotNet.WitBindgen" Version="[LatestVersion]" />
+  <Sdk Name="BytecodeAlliance.Componentize.DotNet.WitBindgen" Version="[LatestVersion]" />
   ```
 2. Add the following inside the `<PropertyGroup>`:
 

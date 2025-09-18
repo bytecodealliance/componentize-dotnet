@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="0.7.0-preview*" />
-    <PackageReference Condition="'$(platform)' == 'Windows_NT'" Include="runtime.win-x64.microsoft.dotnet.ilcompiler.llvm" Version="10.0.0-alpha.1.25162.1" />
-    <PackageReference Condition="'$(platform)' == 'linux'" Include="runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm" Version="10.0.0-alpha.1.25162.1" />
+    <PackageReference Condition="'$(platform)' == 'Windows_NT'" Include="runtime.win-x64.microsoft.dotnet.ilcompiler.llvm" Version="10.0.0-preview.2.25455.1" />
+    <PackageReference Condition="'$(platform)' == 'linux'" Include="runtime.linux-x64.microsoft.dotnet.ilcompiler.llvm" Version="10.0.0-preview.2.25455.1" />
   </ItemGroup>
 </Project>

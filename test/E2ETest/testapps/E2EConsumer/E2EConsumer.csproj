@@ -19,7 +19,7 @@
 
     <ItemGroup>
         <PackageReference Include="BytecodeAlliance.Componentize.DotNet.Wasm.SDK" Version="$(PackageVersion)" />
-        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-alpha.1.25118.1"/>
+        <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM" Version="10.0.0-preview.2.25455.1"/>
 
         <!-- Just to ensure build order -->
         <ProjectReference Include="..\E2EProducer\E2EProducer.csproj" ReferenceOutputAssembly="false" />

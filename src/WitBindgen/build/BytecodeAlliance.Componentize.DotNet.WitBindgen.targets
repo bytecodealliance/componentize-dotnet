@@ -3,7 +3,8 @@
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
 
         <!-- Keep this block all in sync manually, since URLs can be arbitrary -->
-        <WasiSdkVersion Condition="'$(WasiSdkVersion)' == ''">24.0</WasiSdkVersion>
+        <!-- https://github.com/WebAssembly/wasi-sdk/releases -->
+        <WasiSdkVersion Condition="'$(WasiSdkVersion)' == ''">27.0</WasiSdkVersion>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Windows'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-windows.tar.gz</WasiSdkUrl>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-linux.tar.gz</WasiSdkUrl>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-macos.tar.gz</WasiSdkUrl>
@@ -20,7 +21,7 @@
         MSBuild stuff to acquire the necessary SDKs (WASI SDK) automatically. It will take a few mins on the
         first build on a given machine, but after that should no-op.
     -->
-    <Target Name="PrepareWasmSdks" BeforeTargets="CheckWasmSdks" DependsOnTargets="ObtainWasiSdk">
+    <Target Name="PrepareWasmSdks" BeforeTargets="IlcCompile" DependsOnTargets="ObtainWasiSdk">
         <PropertyGroup>
             <WASI_SDK_PATH>$(WasiSdkRoot)</WASI_SDK_PATH>
         </PropertyGroup>

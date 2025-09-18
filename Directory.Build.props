@@ -9,13 +9,18 @@
         <NoWarn>$(NoWarn);NU1507</NoWarn>
 
         <!-- tool versions -->
-        <WasmToolsVersion>1.227.1</WasmToolsVersion>
-        <WacVersion>v0.6.1</WacVersion>
-        <PrebuiltWitBindgenVersion>0.41.0</PrebuiltWitBindgenVersion>
-        <PrebuildWkgVersion>0.10.0</PrebuildWkgVersion>
+        <!-- https://github.com/bytecodealliance/wasm-tools/releases -->
+        <WasmToolsVersion>1.239.0</WasmToolsVersion>
+        <!-- https://github.com/bytecodealliance/wac/releases -->
+        <WacVersion>v0.8.0</WacVersion>
+        <!-- https://github.com/bytecodealliance/wit-bindgen/releases -->
+        <PrebuiltWitBindgenVersion>0.46.0</PrebuiltWitBindgenVersion>
+        <!-- https://github.com/bytecodealliance/wasm-pkg-tools/releases -->
+        <PrebuildWkgVersion>0.12.0</PrebuildWkgVersion>
 
         <!-- test artifacts -->
-        <WasmtimeVersion>30.0.2</WasmtimeVersion>
+        <!-- https://github.com/bytecodealliance/wasmtime/releases -->
+        <WasmtimeVersion>36.0.2</WasmtimeVersion>
 
     </PropertyGroup>
 </Project>

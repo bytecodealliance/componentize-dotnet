@@ -303,7 +303,7 @@ You can configure the SDK by setting properties in your project file. The follow
 | `NativeAotLlvmVersion` | Version of the NativeAOT-LLVM package to use.<br />Find latest versions in the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet/Microsoft.DotNet.ILCompiler.LLVM/versions). | `10.0.0-alpha.1.25162.1` |
 | `WitBindgenVersion` | Version of the `BytecodeAlliance.Componentize.DotNet.WitBindgen` package to use. | Current SDK version |
 | `RegisterExperimentalNuGetSource` | Whether to register the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet) to find the NativeAOT-LLVM package. Set this to `false` if you have a NuGet.config that already includes this feed. | `true` |
-| `WitBindgenAdditionalArgs` | Additional arguments to pass to `wit-bindgen` when generating C# bindings. Separate multiple arguments with spaces. For example: `--with-wit-results --features tls`. | (empty) |
+| `WitBindgenAddtionalArgs` | Additional arguments to pass to `wit-bindgen` when generating C# bindings. Separate multiple arguments with spaces. For example: `--with-wit-results --features tls`. | (empty) |
 | `WitGeneratedFilesRoot` | Folder (relative to the project root) where generated WIT files will be placed. | (empty) |
 
 ## Credits

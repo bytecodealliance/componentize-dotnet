@@ -299,12 +299,12 @@ You can configure the SDK by setting properties in your project file. The follow
 
 | Property Name | Description | Default |
 |---------------|-------------|---------|
-| `WasiSdkVersion` | Version of the WASI SDK to use.<br />Beware that not all versions of the WASI SDK are compatible with NativeAOT-LLVM. You'll see an warning if you pick an incompatible version from NativeAOT-LLVM.<br /><br />⚠️ When changing this value, or the NativeAOT-LLVM version, check the build output for any warnings! | `24.0` |
+| `WasiSdkVersion` | Version of the WASI SDK to use.<br />Be aware that not all versions of the WASI SDK are compatible with NativeAOT-LLVM. A warning will appear if you select an incompatible version for NativeAOT-LLVM.<br /><br />⚠️ When changing this value, or the NativeAOT-LLVM version, check the build output for a warning! | `24.0` |
 | `NativeAotLlvmVersion` | Version of the NativeAOT-LLVM package to use.<br />Find latest versions in the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet/Microsoft.DotNet.ILCompiler.LLVM/versions). | `10.0.0-alpha.1.25162.1` |
 | `WitBindgenVersion` | Version of the `BytecodeAlliance.Componentize.DotNet.WitBindgen` package to use. | Current SDK version |
 | `RegisterExperimentalNuGetSource` | Whether to register the [dotnet-experimental feed](https://dev.azure.com/dnceng/public/_artifacts/feed/dotnet-experimental/NuGet) to find the NativeAOT-LLVM package. Set this to `false` if you have a NuGet.config that already includes this feed. | `true` |
-| `WitBindgenAddtionalArgs` | Additional arguments to pass to `wit-bindgen` when generating C# bindings. Separate multiple args with spaces. | (empty) |
-| `WitGeneratedFilesRoot` | Folder to place generated WIT files. Relative to the project root. | (empty) |
+| `WitBindgenAdditionalArgs` | Additional arguments to pass to `wit-bindgen` when generating C# bindings. Separate multiple arguments with spaces. For example: `--with-wit-results --features tls`. | (empty) |
+| `WitGeneratedFilesRoot` | Folder (relative to the project root) where generated WIT files will be placed. | (empty) |
 
 ## Credits
 

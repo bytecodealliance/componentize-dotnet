@@ -1,0 +1,5 @@
+<Project>
+    <PropertyGroup>
+        <WitBindgenVersion Condition="'$(WitBindgenVersion)' == ''">$version$</WitBindgenVersion>
+    </PropertyGroup>
+</Project>

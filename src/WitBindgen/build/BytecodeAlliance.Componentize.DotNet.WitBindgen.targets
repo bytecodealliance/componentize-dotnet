@@ -1,4 +1,5 @@
 ﻿<Project>
+
     <PropertyGroup>
         <WitBindgenRuntime>native-aot</WitBindgenRuntime>
 
@@ -8,7 +9,6 @@
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('Linux'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-linux.tar.gz</WasiSdkUrl>
         <WasiSdkUrl Condition="$([MSBuild]::IsOSPlatform('OSX'))">https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-$(WasiSdkVersion.Split(".")[0])/wasi-sdk-$(WasiSdkVersion)-x86_64-macos.tar.gz</WasiSdkUrl>
         <WasiSdkRoot>$([System.IO.Path]::Combine("$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))", ".wasi-sdk", "wasi-sdk-$(WasiSdkVersion)"))</WasiSdkRoot>
-
     </PropertyGroup>
 
     <PropertyGroup>

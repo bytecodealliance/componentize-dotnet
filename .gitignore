@@ -5,3 +5,5 @@ artifacts/
 test/WasmComponentSdkTest/testapps/OciWit/wit/*.wasm
 *.binlog
 .DS_Store
+templates/content/wasi-cli/wasi-cli.csproj
+src/WasmComponent.Sdk/sdk/Version.props

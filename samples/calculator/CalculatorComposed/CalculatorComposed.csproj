@@ -13,7 +13,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Adder\Adder.csproj" ReferenceOutputAssembly="false" />
       <ProjectReference Include="..\CalculatorHost\CalculatorHost.csproj" ReferenceOutputAssembly="false" />
-      <PackageReference Include="runtime.$(NETCoreSdkPortableRuntimeIdentifier).Microsoft.DotNet.ILCompiler.LLVM"/>
     </ItemGroup>
 
     <Target Name="ComposeWasmComponent" AfterTargets="Publish">

@@ -1,0 +1,7 @@
+<Project>
+    <ItemGroup>
+        <PackageReference Include="BytecodeAlliance.Componentize.DotNet.WitBindgen" IsImplicitlyDefined="true" Version="$(WitBindgenVersion)" />
+    </ItemGroup>
+    
+    <Import Project="BytecodeAlliance.Componentize.DotNet.Wasm.SDK.targets" />
+</Project>

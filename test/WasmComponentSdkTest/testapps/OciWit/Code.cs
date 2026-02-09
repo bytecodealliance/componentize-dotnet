@@ -1,11 +1,11 @@
-using CommandWorld.wit.exports.wasi.cli.v0_2_0;
+using CommandWorld.wit.Exports.wasi.cli.v0_2_0;
 using MyFuncsWorld;
 using System.Text;
 
-namespace ProxyWorld.wit.exports.wasi.http.v0_2_0
+namespace ProxyWorld.wit.Exports.wasi.http.v0_2_0
 {
-    using ProxyWorld.wit.imports.wasi.http.v0_2_0;
-    public class IncomingHandlerImpl : IIncomingHandler
+    using ProxyWorld.wit.Imports.wasi.http.v0_2_0;
+    public class IncomingHandlerExportsImpl : IIncomingHandlerExports
     {
         public static void Handle(ITypes.IncomingRequest request, ITypes.ResponseOutparam responseOut)
         {
@@ -25,9 +25,9 @@ namespace ProxyWorld.wit.exports.wasi.http.v0_2_0
         }
     }
 }
-namespace CommandWorld.wit.exports.wasi.cli.v0_2_0
+namespace CommandWorld.wit.Exports.wasi.cli.v0_2_0
 {
-    public class RunImpl : IRun
+    public class RunExportsImpl : IRunExports
     {
         public static void Run()
         {
@@ -38,7 +38,7 @@ namespace CommandWorld.wit.exports.wasi.cli.v0_2_0
 
 namespace MyFuncsWorld
 {
-    public class MyFuncsWorldImpl : IMyFuncsWorld
+    public class MyFuncsWorldExportsImpl : IMyFuncsWorldExports
     {
         public static int GetNumber()
         {

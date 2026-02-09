@@ -1,6 +1,6 @@
 ﻿using MyFuncsWorld;
 
-public class MyFuncsWorldImpl : IMyFuncsWorld
+public class MyFuncsWorldExportsImpl : IMyFuncsWorldExports
 {
     public static int GetNumber()
     {

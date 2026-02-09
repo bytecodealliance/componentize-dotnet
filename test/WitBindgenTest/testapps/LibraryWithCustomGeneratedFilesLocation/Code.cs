@@ -1,6 +1,6 @@
 ﻿using MySimpleWorld;
 
-public class MySimpleWorldImpl : IMySimpleWorld
+public class MySimpleWorldExportsImpl : IMySimpleWorldExports
 {
     public static int GetNumber()
     {

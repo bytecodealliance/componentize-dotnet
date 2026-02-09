@@ -4,7 +4,7 @@ public class Code
 {
     public static void CallSimpleDoSomething()
     {
-        MyFuncsWorld.exports.MyFuncsWorld.DoSomething();
+        MyFuncsWorld.IMyFuncsWorldImports.DoSomething();
     }
 
 }

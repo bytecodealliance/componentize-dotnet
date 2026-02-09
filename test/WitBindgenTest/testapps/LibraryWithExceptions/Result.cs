@@ -1,6 +1,6 @@
 ﻿using MyResultsWorld;
 
-public class MyResultsWorldImpl : IMyResultsWorld
+public class MyResultsWorldExportsImpl : IMyResultsWorldExports
 {
     public static float StringError(float a)
     {

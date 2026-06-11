@@ -4,12 +4,12 @@
   "classifications": [
     "wasi",
     "wasm",
-    "Console"
+    "Library"
   ],
-  "identity": "BytecodeAlliance.Componentize.DotNet.Templates.Console",
-  "name": "Componentize-dotnet wasi console template",
-  "shortName": "componentize.wasi.cli",
-  "sourceName": "wasi-cli",
+  "identity": "BytecodeAlliance.Componentize.DotNet.Templates.Library",
+  "name": "Componentize-dotnet wasi library template",
+  "shortName": "componentize.wasi.lib",
+  "sourceName": "wasi-lib",
   "tags": {
     "language": "C#",
     "type": "project"

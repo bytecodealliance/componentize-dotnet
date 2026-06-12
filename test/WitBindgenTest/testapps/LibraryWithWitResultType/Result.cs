@@ -4,7 +4,7 @@ using MyWitResultsWorld;
 
 
 
-public class MyWitResultsWorldImpl : IMyWitResultsWorld
+public class MyWitResultsWorldExportsImpl : IMyWitResultsWorldExports
 {
     public static Result<float, string> StringError(float a)
     {

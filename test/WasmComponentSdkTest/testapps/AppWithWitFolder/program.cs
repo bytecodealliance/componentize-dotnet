@@ -1,1 +1,1 @@
-ImportstestWorld.wit.imports.test.pkg.v0_2_0.FolderInterop.Folder();
+ImportstestWorld.wit.Imports.test.pkg.v0_2_0.IFolderImports.Folder();

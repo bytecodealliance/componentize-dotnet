@@ -1,6 +1,6 @@
-﻿namespace ComputerWorld.wit.exports.example.calculator;
+﻿namespace ComputerWorld.wit.Exports.example.calculator;
 
-public class OperationsImpl : IOperations
+public class OperationsExportsImpl : IOperationsExports
 {
     public static int Add(int left, int right)
     {

@@ -22,30 +22,30 @@ public class CodeGenerationTest
         // The fact that this compiles is what matters. There would be no point calling
         // the function to validate its behavior, as that has nothing to do with WIT codegen
         // and wouldn't even be running as WebAssembly.
-        Assert.NotNull((Func<int>)MyFuncsWorldImpl.GetNumber);
+        Assert.NotNull((Func<int>)MyFuncsWorldExportsImpl.GetNumber);
     }
 
     [Fact]
     public void CanSpecifyWorld()
     {
-        Assert.NotNull((Func<int>)SomeStuffImpl.GetNumber);
+        Assert.NotNull((Func<int>)SomeStuffExportsImpl.GetNumber);
     }
 
     [Fact]
     public void ShouldBeNormalResult()
     {
-        Assert.NotNull((Func<float, float>)MyResultsWorldImpl.StringError);
+        Assert.NotNull((Func<float, float>)MyResultsWorldExportsImpl.StringError);
     }
 
     [Fact]
     public void ShouldBeNormalWitResult()
     {
-        Assert.NotNull((Func<float, MyWitResultsWorld.Result<float, string>>)MyWitResultsWorldImpl.StringError);
+        Assert.NotNull((Func<float, MyWitResultsWorld.Result<float, string>>)MyWitResultsWorldExportsImpl.StringError);
     }
 
     [Fact]
     public void CanChangeWitouputLocation()
     {
-         Assert.NotNull((Func<int>)MySimpleWorldImpl.GetNumber);
+         Assert.NotNull((Func<int>)MySimpleWorldExportsImpl.GetNumber);
     }
 }

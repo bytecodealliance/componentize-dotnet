@@ -9,13 +9,13 @@
         <NoWarn>$(NoWarn);NU1507</NoWarn>
 
         <!-- tool versions -->
-        <WasmToolsVersion>1.227.1</WasmToolsVersion>
-        <WacVersion>v0.6.1</WacVersion>
-        <PrebuiltWitBindgenVersion>0.52.0</PrebuiltWitBindgenVersion>
-        <PrebuildWkgVersion>0.10.0</PrebuildWkgVersion>
+        <WasmToolsVersion>1.251.0</WasmToolsVersion>
+        <WacVersion>v0.10.0</WacVersion>
+        <PrebuiltWitBindgenVersion>0.58.0</PrebuiltWitBindgenVersion>
+        <PrebuildWkgVersion>0.15.1</PrebuildWkgVersion>
 
         <!-- test artifacts -->
-        <WasmtimeVersion>30.0.2</WasmtimeVersion>
+        <WasmtimeVersion>45.0.1</WasmtimeVersion>
 
     </PropertyGroup>
 </Project>

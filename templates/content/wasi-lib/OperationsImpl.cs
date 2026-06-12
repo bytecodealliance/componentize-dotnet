@@ -1,6 +1,6 @@
-namespace LibraryWorld.wit.exports.example.component;
+namespace LibraryWorld.wit.Exports.example.component;
 
-public class OperationsImpl : IOperations
+public class OperationsExportsImpl : IOperationsExports
 {
     public static int Add(int left, int right)
     {

@@ -21,6 +21,7 @@ jobs:
     needs: build
     permissions:
       contents: write
+      id-token: write
     name: Release
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     steps:
@@ -41,8 +42,14 @@ jobs:
         echo "Version: $version"
         echo "version=$version" >> $GITHUB_OUTPUT
     # Publish to https://nuget.org and tag the version on repo if test-run=false
+    - name: NuGet login
+      uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841
+      id: login
+      with:
+        user: jsturtevant
+      if: ${{ !inputs.test-run }}
     - name: Publish
-      run: dotnet nuget push ./*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ./*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ steps.login.outputs.NUGET_API_KEY }}
       if: ${{ !inputs.test-run }}
     - name: Push version tag
       if: ${{ !inputs.test-run }}

@@ -45,6 +45,17 @@ Hello world from compontize-dotnet!
 
 (if needed, replace `MyApp` with the actual name of your project)
 
+### Library components
+
+If you want to build a library component that exports functionality via WIT instead of a command line application, use the library template:
+
+```bash
+dotnet new componentize.wasi.lib -o MyLib
+dotnet build MyLib
+```
+
+The generated project contains a `component.wit` file with an exported interface and a corresponding implementation class. See [Creating a WASI 0.2 component, including WIT support](#creating-a-wasi-02-component-including-wit-support) below for how to customize it.
+
 ## Creating a WASI 0.2 component, including WIT support
 Lastest version of NativeAOT compiler package and the mono support in dotnet 9-preview 7 build native wasi 0.2 components with no additional tools.
 

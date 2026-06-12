@@ -3,7 +3,7 @@
 1. Update all the tool versions in [Directory.Build.Props](./Directory.Build.props)
 1. Open a PR to update:
     - the `<VersionPrefix>` tag in [Directory.Build.Props](./Directory.Build.props)
-    - the `BytecodeAlliance.Componentize.DotNet.Wasm.SDK` package `version` to match the `<VersionPrefix>` in the [template](./templates/content/wasi-cli/wasi-cli.csproj). For example the template version might look like `Version="0.6.0-preview*"`. This ensures the templates use the latest package.
+    - the `BytecodeAlliance.Componentize.DotNet.Wasm.SDK` package `version` to match the `<VersionPrefix>` in each template under [templates/content](./templates/content/) ([wasi-cli](./templates/content/wasi-cli/wasi-cli.csproj) and [wasi-lib](./templates/content/wasi-lib/wasi-lib.csproj)). For example the template version might look like `Version="0.6.0-preview*"`. This ensures the templates use the latest package.
 1. Maintainers approve and merge PR
 1. After the PR merges a maintainer triggers the Release workflow on the main branch via the github Actions UI or runs:
 

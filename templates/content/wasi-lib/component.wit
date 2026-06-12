@@ -1,0 +1,9 @@
+package example:component;
+
+interface operations {
+  add: func(left: s32, right: s32) -> s32;
+}
+
+world library {
+  export operations;
+}

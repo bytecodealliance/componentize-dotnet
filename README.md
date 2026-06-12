@@ -24,7 +24,7 @@ With this package, you can add one NuGet reference. The build output is fully AO
 
 ### 1. Set up SDKs
 
-If you don't already have it, install [.NET 10+ preview SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+If you don't already have it, install [.NET 10+ SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
 ### 2. Install template and build
 
